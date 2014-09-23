@@ -28,7 +28,7 @@ class Module {
                     $user = $e->getParam('user');
                     $em = $mvcEvent->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
 
-                    $defaultUserRole = $em->getRepository('SamUser\Entity\Role')->find(2);
+                    $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
                     $user->setRoles($defaultUserRole);
                 });
     }
