@@ -4,6 +4,7 @@ CdiUser
 **Que es CdiUser**
 
 CdiUser es un modulo que trabaja junto a ZfcUser, ZfcUserDoctrineORM and BjyAuthorize.
+Se agrega administracion de usuarios
 
 
 Instalacion
