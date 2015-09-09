@@ -1,6 +1,6 @@
 <?php
 /**
- * ZfcUserAdmin Configuration
+ * CdiUser Configuration
  *
  * If you have a ./config/autoload/ directory set up for your project, you can
  * drop this config file in it and change the values as you wish.
@@ -14,12 +14,12 @@ $settings = array(
      * Set the mapper to be used here
      * Currently Available mappers
      * 
-     * ZfcUserAdmin\Mapper\UserDoctrine
+     * CdiUser\Mapper\UserDoctrine
      *
      * By default this is using
-     * ZfcUserAdmin\Mapper\UserZendDb
+     * CdiUser\Mapper\UserZendDb
      */
-    'user_mapper' => 'ZfcUserAdmin\Mapper\UserDoctrine',
+    'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
 );
 
 /**

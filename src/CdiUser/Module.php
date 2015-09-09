@@ -4,50 +4,25 @@ namespace CdiUser;
 
 class Module {
 
-    public function getConfig() {
-        return include __DIR__ . '/config/module.config.php';
-    }
+        public function getConfig() {
+        return include __DIR__ . '/../../config/module.config.php';
+    } 
 
     public function getAutoloaderConfig() {
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    __NAMESPACE__ => __DIR__ . '/../../src/' . __NAMESPACE__,
                 ),
             ),
         );
     }
 
     public function getServiceConfig() {
-        return include __DIR__ . '/config/services.config.php';
+        return include __DIR__ . '/../../config/services.config.php';
     }
 
     public function onBootstrap(\Zend\Mvc\MvcEvent $mvcEvent) {
-
-
-
-
-        $zfcServiceEvents = $mvcEvent->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
-        $zfcServiceEvents->attach('register', function($e) use($mvcEvent) {
-            $user = $e->getParam('user');
-            $em = $mvcEvent->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
-
-            $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
-            $user->setRoles($defaultUserRole);
-        });
-
-
-
-        //Modifico la registracion para que quede con role "user"
-        $zfcServiceEvents = $mvcEvent->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
-
-        $zfcServiceEvents->attach('register', function($e) use($mvcEvent) {
-            $user = $e->getParam('user');
-            $em = $mvcEvent->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
-
-            $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
-            $user->setRoles($defaultUserRole);
-        });
 
         ////////////////////////
         //Modifico el form de la administracion
@@ -55,7 +30,7 @@ class Module {
         $em = $app->getEventManager()->getSharedManager();
 
 
-        $em->attach('ZfcUserAdmin\Form\CreateUser', 'init', function($e) {
+        $em->attach('CdiUser\Form\CreateUser', 'init', function($e) {
             // $form is a ZfcUser\Form\Register
             $form = $e->getTarget();
 
@@ -78,7 +53,7 @@ class Module {
         });
 
 
-        $em->attach('ZfcUserAdmin\Form\EditUser', 'init', function($e) {
+        $em->attach('CdiUser\Form\EditUser', 'init', function($e) {
             // $form is a ZfcUser\Form\Register
             $user = $e->getParam('user');
             $form = $e->getTarget();
@@ -98,6 +73,20 @@ class Module {
                     'property' => 'roleId'
                 )
             ));
+        });
+        
+        
+
+       
+          //Modifico la registracion para que quede con role "user"
+        $zfcServiceEvents = $mvcEvent->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
+
+        $zfcServiceEvents->attach('register', function($e) use($mvcEvent) {
+            $user = $e->getParam('user');
+            $em = $mvcEvent->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
+
+            $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
+            $user->setRoles($defaultUserRole);
         });
     }
 

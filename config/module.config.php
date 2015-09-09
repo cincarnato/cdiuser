@@ -1,5 +1,5 @@
 <?php
-
+  
 return array(
     'doctrine' => array(
         'driver' => array(
@@ -20,15 +20,17 @@ return array(
         'user_entity_class' => 'CdiUser\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
+         'enable_username' => true,
     ),
     'view_manager' => array(
         'template_path_stack' => array(
             'zfcuseradmin' => __DIR__ . '/../view',
+            'cdiuser' => __DIR__ . '/../view',
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'zfcuseradmin' => 'ZfcUserAdmin\Controller\UserAdminController',
+            'zfcuseradmin' => 'CdiUser\Controller\UserAdminController',
         ),
     ),
     'router' => array(
@@ -111,7 +113,7 @@ return array(
     ),
 
     'zfcuseradmin' => array(
-        'zfcuseradmin_mapper' => 'ZfcUserAdmin\Mapper\UserZendDb',
+        'zfcuseradmin_mapper' => 'CdiUser\Mapper\UserZendDb',
     )
    
 );
