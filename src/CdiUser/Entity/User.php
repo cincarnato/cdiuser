@@ -75,6 +75,26 @@ class User implements UserInterface, ProviderInterface
      */
     protected $tel;
     
+     /**
+     * @var \DateTime updatedAt
+     *
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true, name="last_keepalive")
+     */
+    protected $lastKeepalive;
+    
+    
+      /**
+     * @var string
+     * @ORM\Column(type="string", length=15, unique=false, nullable=true, name="last_ip")
+     */
+    protected $lastIp;
+    
+     /**
+     * @ORM\ManyToOne(targetEntity="DBAL\Entity\AgentStatus")
+     * 
+     */
+    protected $status;
+    
     /**
      * Initialies the roles variable.
      */
@@ -257,7 +277,24 @@ class User implements UserInterface, ProviderInterface
     public function setTel($tel) {
         $this->tel = $tel;
     }
-   public function __toString() {
+    
+    function getLastKeepalive() {
+        return $this->lastKeepalive;
+    }
+
+    function getLastIp() {
+        return $this->lastIp;
+    }
+
+    function setLastKeepalive(\DateTime $lastKeepalive) {
+        $this->lastKeepalive = $lastKeepalive;
+    }
+
+    function setLastIp($lastIp) {
+        $this->lastIp = $lastIp;
+    }
+
+       public function __toString() {
 
         if ($this->username != "") {
             return $this->username;
@@ -270,5 +307,15 @@ class User implements UserInterface, ProviderInterface
             return $userName;
         }
     }
+    
+    function getStatus() {
+        return $this->status;
+    }
+
+    function setStatus($status) {
+        $this->status = $status;
+    }
+
+
 
 }

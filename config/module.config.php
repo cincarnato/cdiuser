@@ -1,5 +1,5 @@
 <?php
-  
+
 return array(
     'doctrine' => array(
         'driver' => array(
@@ -20,7 +20,9 @@ return array(
         'user_entity_class' => 'CdiUser\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
-         'enable_username' => true,
+        'enable_registration' => false,
+        'enable_username' => true,
+        'auth_identity_fields' => array('email', 'username'),
     ),
     'view_manager' => array(
         'template_path_stack' => array(
@@ -28,13 +30,47 @@ return array(
             'cdiuser' => __DIR__ . '/../view',
         ),
     ),
+    'cdiuser_options' => array(
+        'register_session' => true,
+        'session_life_time' => 122,
+        'keepalive' => 120,
+    ),
     'controllers' => array(
         'invokables' => array(
             'zfcuseradmin' => 'CdiUser\Controller\UserAdminController',
+            'usersession' => 'CdiUser\Controller\UserSessionController',
         ),
+    ),
+    'view_helpers' => array(
+        'invokables' => array(
+            'JsKeepalive' => 'CdiUser\View\Helper\JsKeepalive', //Need JavaScript and JQuery
+        )
     ),
     'router' => array(
         'routes' => array(
+            'cdiuser' => array(
+                'type' => 'Literal',
+                'priority' => 1000,
+                'options' => array(
+                    'route' => '/cdiuser',
+                    'defaults' => array(
+                        'controller' => 'usersession',
+                        'action' => 'index',
+                    ),
+                ),
+                'child_routes' => array(
+                    'keepalive' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/keepalive',
+                            'defaults' => array(
+                                'controller' => 'usersession',
+                                'action' => 'keepalive',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'zfcadmin' => array(
                 'child_routes' => array(
                     'zfcuseradmin' => array(
@@ -44,17 +80,17 @@ return array(
                             'route' => '/user',
                             'defaults' => array(
                                 'controller' => 'zfcuseradmin',
-                                'action'     => 'index',
+                                'action' => 'index',
                             ),
                         ),
-                        'child_routes' =>array(
+                        'child_routes' => array(
                             'list' => array(
                                 'type' => 'Segment',
                                 'options' => array(
                                     'route' => '/list[/:p]',
                                     'defaults' => array(
                                         'controller' => 'zfcuseradmin',
-                                        'action'     => 'list',
+                                        'action' => 'list',
                                     ),
                                 ),
                             ),
@@ -64,7 +100,7 @@ return array(
                                     'route' => '/create',
                                     'defaults' => array(
                                         'controller' => 'zfcuseradmin',
-                                        'action'     => 'create'
+                                        'action' => 'create'
                                     ),
                                 ),
                             ),
@@ -74,8 +110,8 @@ return array(
                                     'route' => '/edit/:userId',
                                     'defaults' => array(
                                         'controller' => 'zfcuseradmin',
-                                        'action'     => 'edit',
-                                        'userId'     => 0
+                                        'action' => 'edit',
+                                        'userId' => 0
                                     ),
                                 ),
                             ),
@@ -85,8 +121,8 @@ return array(
                                     'route' => '/remove/:userId',
                                     'defaults' => array(
                                         'controller' => 'zfcuseradmin',
-                                        'action'     => 'remove',
-                                        'userId'     => 0
+                                        'action' => 'remove',
+                                        'userId' => 0
                                     ),
                                 ),
                             ),
@@ -96,7 +132,6 @@ return array(
             ),
         ),
     ),
-
     'navigation' => array(
         'admin' => array(
             'zfcuseradmin' => array(
@@ -111,9 +146,7 @@ return array(
             ),
         ),
     ),
-
     'zfcuseradmin' => array(
         'zfcuseradmin_mapper' => 'CdiUser\Mapper\UserZendDb',
     )
-   
 );

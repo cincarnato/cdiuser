@@ -21,6 +21,19 @@ class Module {
     public function getServiceConfig() {
         return include __DIR__ . '/../../config/services.config.php';
     }
+    
+    public function getViewHelperConfig() {
+        return array(
+            'factories' => array(
+                'CdiUserJsKeepalive' => function ($sm) {
+                    $locator = $sm->getServiceLocator();
+                    $viewHelper = new View\Helper\JsKeepalive();
+                    $viewHelper->setOptions($locator->get('cdiuser_options'));
+                    return $viewHelper;
+                },
+            ),
+        );
+    }
 
     public function onBootstrap(\Zend\Mvc\MvcEvent $mvcEvent) {
 
@@ -76,9 +89,10 @@ class Module {
         });
         
         
-
-       
-          //Modifico la registracion para que quede con role "user"
+        //Debo poner una opcion para habilitar o deshabilitar
+//              $userSession = $mvcEvent->getApplication()->getServiceManager()->get('cdiuser_service_user_session');
+//            $userSession->registerKeepalive();
+        //Modifico la registracion para que quede con role "user"
         $zfcServiceEvents = $mvcEvent->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
 
         $zfcServiceEvents->attach('register', function($e) use($mvcEvent) {
