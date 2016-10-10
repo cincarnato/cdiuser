@@ -6,18 +6,12 @@
  * drop this config file in it and change the values as you wish.
  */
 $settings = array(
-    
-
     /**
      * Mapper for ZfcUser
      *
      * Set the mapper to be used here
      * Currently Available mappers
-     * 
      * CdiUser\Mapper\UserDoctrine
-     *
-     * By default this is using
-     * CdiUser\Mapper\UserZendDb
      */
     'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
 );

@@ -4,9 +4,9 @@ namespace CdiUser;
 
 class Module {
 
-        public function getConfig() {
+    public function getConfig() {
         return include __DIR__ . '/../../config/module.config.php';
-    } 
+    }
 
     public function getAutoloaderConfig() {
         return array(
@@ -21,7 +21,7 @@ class Module {
     public function getServiceConfig() {
         return include __DIR__ . '/../../config/services.config.php';
     }
-    
+
     public function getViewHelperConfig() {
         return array(
             'factories' => array(
@@ -87,12 +87,9 @@ class Module {
                 )
             ));
         });
-        
-        
-        //Debo poner una opcion para habilitar o deshabilitar
-//              $userSession = $mvcEvent->getApplication()->getServiceManager()->get('cdiuser_service_user_session');
-//            $userSession->registerKeepalive();
-        //Modifico la registracion para que quede con role "user"
+
+
+
         $zfcServiceEvents = $mvcEvent->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
 
         $zfcServiceEvents->attach('register', function($e) use($mvcEvent) {

@@ -21,14 +21,15 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.3.3",
-        "doctrine/doctrine-orm-module": ">=0.7",
-        "zf-commons/zfc-user": ">=0.1",
-        "zf-commons/zfc-user-doctrine-orm": ">=0.1",
-        "bjyoungblood/bjy-authorize": ">=1.2"
+        "php": ">=5.5",
+        "zendframework/zend-mvc": "^3.0.1",
+        "doctrine/doctrine-orm-module": "^1.0",
+        "zf-commons/zfc-user": "^2.0",
+        "zf-commons/zfc-user-doctrine-orm": "dev-master",
+        "zf-commons/zfc-rbac": "dev-master"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "CdiUser\\": "src/"
         },
          "classmap": [
