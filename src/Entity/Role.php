@@ -11,7 +11,7 @@ use ZfcRbac\Permission\PermissionInterface;
  * @ORM\Entity
  * @ORM\Table(name="roles")
  */
-class HierarchicalRole implements HierarchicalRoleInterface
+class Role implements HierarchicalRoleInterface
 {
     /**
      * @var int|null

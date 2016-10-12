@@ -33,7 +33,7 @@ class UserAdminController extends AbstractActionController {
 
     public function getEntityManager() {
         if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         }
         return $this->em;
     }
@@ -47,7 +47,7 @@ class UserAdminController extends AbstractActionController {
             $paginator = $users;
         }
 
-        $paginator->setItemCountPerPage(100);
+        $paginator->setItemCountPerPage(50);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         return array(
             'users' => $paginator,
@@ -57,25 +57,19 @@ class UserAdminController extends AbstractActionController {
 
     public function createAction() {
         /** @var $form \CdiUser\Form\CreateUser */
-        $form = $this->getServiceLocator()->get('zfcuseradmin_createuser_form');
+        $form = $this->getServiceLocator()->get('cdiuser_createuser_form');
         $request = $this->getRequest();
 
         /** @var $request \Zend\Http\Request */
         if ($request->isPost()) {
-            
-                      
             $zfcUserOptions = $this->getZfcUserOptions();
             $class = $zfcUserOptions->getUserEntityClass();
             $user = new $class();
-            //$form->setHydrator(new ClassMethods());
             $form->bind($user);
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                
-         
                 $user = $this->getAdminUserService()->create($form, (array) $request->getPost());
-                //var_dump($user);
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was created');
                     return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
@@ -93,12 +87,12 @@ class UserAdminController extends AbstractActionController {
         $user = $this->getUserMapper()->findById($userId);
 
         /** @var $form \CdiUser\Form\EditUser */
-        $form = $this->getServiceLocator()->get('zfcuseradmin_edituser_form');
+        $form = $this->getServiceLocator()->get('cdiuser_edituser_form');
         $form->setUser($user);
-        
+
         //Si se pone el bind, levanta la password en el form y es un problema
-        //$form->bind($user);
-      
+        $form->bind($user);
+
 
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
@@ -106,20 +100,19 @@ class UserAdminController extends AbstractActionController {
             $form->setData($request->getPost());
             if ($form->isValid()) {
 
-            
-                //Provisiorio. Se debe mover. (Parche)     
-                $role = $this->getEntityManager()->find("CdiUser\Entity\Role", $this->params()->fromPost('rol'));
-               $user->setRoles($role);
+                //Provisiorio. Se debe mover.  
+//                $role = $this->getEntityManager()->find("CdiUser\Entity\Role", $this->params()->fromPost('role'));
+//                $user->setRole($role);
 
                 $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user);
 
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was edited');
-                      return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
                 }
             }
         } else {
-        
+
             $form->populateFromUser($user);
             //Parche para mostrar el rol adeacuado
             $form->get('rol')->setValue($user->getRoles()->getId());
@@ -208,7 +201,7 @@ class UserAdminController extends AbstractActionController {
 
     public function getAdminUserService() {
         if (null === $this->adminUserService) {
-            $this->adminUserService = $this->getServiceLocator()->get('zfcuseradmin_user_service');
+            $this->adminUserService = $this->getServiceLocator()->get('cdiuser_user_service');
         }
         return $this->adminUserService;
     }

@@ -5,10 +5,8 @@ namespace CdiUser\Options;
 use Zend\Stdlib\AbstractOptions;
 
 class ModuleOptions extends AbstractOptions implements
-    UserListOptionsInterface,
-    UserEditOptionsInterface,
-    UserCreateOptionsInterface
-{
+ModuleOptionsInterface {
+
     /**
      * Turn off strict options mode
      */
@@ -53,76 +51,63 @@ class ModuleOptions extends AbstractOptions implements
      * Allow change user password on user edit form.
      */
     protected $allowPasswordChange = true;
-
     protected $userMapper = 'CdiUser\Mapper\UserDoctrine';
 
-    public function setUserMapper($userMapper)
-    {
+    public function setUserMapper($userMapper) {
         $this->userMapper = $userMapper;
     }
 
-    public function getUserMapper()
-    {
+    public function getUserMapper() {
         return $this->userMapper;
     }
 
-    public function setUserListElements(array $listElements)
-    {
+    public function setUserListElements(array $listElements) {
         $this->userListElements = $listElements;
     }
 
-    public function getUserListElements()
-    {
+    public function getUserListElements() {
         return $this->userListElements;
     }
 
-    public function getEditFormElements()
-    {
+    public function getEditFormElements() {
         return $this->editFormElements;
     }
 
-    public function setEditFormElements(array $elements)
-    {
+    public function setEditFormElements(array $elements) {
         $this->editFormElements = $elements;
     }
 
-    public function setCreateFormElements(array $createFormElements)
-    {
+    public function setCreateFormElements(array $createFormElements) {
         $this->createFormElements = $createFormElements;
     }
 
-    public function getCreateFormElements()
-    {
+    public function getCreateFormElements() {
         return $this->createFormElements;
     }
 
-    public function setCreateUserAutoPassword($createUserAutoPassword)
-    {
+    public function setCreateUserAutoPassword($createUserAutoPassword) {
         $this->createUserAutoPassword = $createUserAutoPassword;
     }
 
-    public function getCreateUserAutoPassword()
-    {
+    public function getCreateUserAutoPassword() {
         return $this->createUserAutoPassword;
     }
 
-    public function getAllowPasswordChange()
-    {
+    public function getAllowPasswordChange() {
         return $this->allowPasswordChange;
     }
 
-    public function setAdminPasswordChange($allowPasswordChange)
-    {
+    public function setAllowPasswordChange($allowPasswordChange) {
         $this->allowPasswordChange = $allowPasswordChange;
     }
 
-    public function setAutoPasswordLength($autoPasswordLength)
-    {
+    public function setAutoPasswordLength($autoPasswordLength) {
         $this->autoPasswordLength = $autoPasswordLength;
     }
 
-    public function getAutoPasswordLength()
-    {
+    public function getAutoPasswordLength() {
         return $this->autoPasswordLength;
     }
+    
+   
 }

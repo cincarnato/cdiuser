@@ -2,38 +2,27 @@
 
 namespace CdiUser\Form;
 
-use CdiUser\Options\UserCreateOptionsInterface;
+use CdiUser\Options\ModuleOptionsInterface;
 use ZfcUser\Options\RegistrationOptionsInterface;
 use ZfcUser\Form\Register as Register;
+use ZfcUser\Form\RegisterFilter;
+use ZfcUser\Validator\NoRecordExists;
 
 class CreateUser extends Register
 {
     /**
-     * @var RegistrationOptionsInterface
-     */
-    protected $createOptionsOptions;
-
-    protected $serviceManager;
-    /**
-     * @var UserCreateOptionsInterface
+     * @var ModuleOptionsInterface
      */
     protected $createOptions;
 
-    public function __construct($name = null, UserCreateOptionsInterface $createOptions, RegistrationOptionsInterface $registerOptions, $serviceManager)
+    public function __construct($name = null,  RegistrationOptionsInterface $zfcUserOptions, ModuleOptionsInterface $createOptions)
     {
         $this->setCreateOptions($createOptions);
-        $this->setServiceManager($serviceManager);
-        parent::__construct($name, $registerOptions);
-
-        if ($createOptions->getCreateUserAutoPassword()) {
-            $this->remove('password');
-            $this->remove('passwordVerify');
-        }
+        parent::__construct($name, $zfcUserOptions);
 
         foreach ($this->getCreateOptions()->getCreateFormElements() as $name => $element) {
             // avoid adding fields twice (e.g. email)
-            // if ($this->get($element)) continue;
-
+          if ($this->get($element)) continue;
             $this->add(array(
                 'name' => $element,
                 'options' => array(
@@ -44,13 +33,12 @@ class CreateUser extends Register
                 ),
             ));
         }
-
         $this->get('submit')->setAttribute('label', 'Create');
     }
 
-    public function setCreateOptions(UserCreateOptionsInterface $createOptionsOptions)
+    public function setCreateOptions(ModuleOptionsInterface $createOptions)
     {
-        $this->createOptions = $createOptionsOptions;
+        $this->createOptions = $createOptions;
         return $this;
     }
 
@@ -59,13 +47,4 @@ class CreateUser extends Register
         return $this->createOptions;
     }
 
-    public function setServiceManager($serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-    }
-
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
 }

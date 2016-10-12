@@ -1,6 +1,22 @@
 <?php
 
 return array(
+    'cdiuser' => array(
+        'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
+        'user_list_elements' => array(
+            'Id' => 'id',
+            'Name' => 'displayName',
+            'Email' => 'email',
+            'Rol' => 'role',
+            'Tel' => 'tel'),
+        'create_user_auto_password' => false,
+        'create_form_elements' => array(
+            'Name' => 'displayName',
+        ),
+        'edit_form_elements' => array(
+            'Name' => 'displayName',
+        ),
+    ),
     'doctrine' => array(
         'driver' => array(
             // overriding zfc-user-doctrine-orm's config
@@ -20,7 +36,7 @@ return array(
         'user_entity_class' => 'CdiUser\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
-        'enable_registration' => false,
+        'enable_registration' => true,
         'enable_username' => true,
         'auth_identity_fields' => array('email', 'username'),
     ),
@@ -30,21 +46,10 @@ return array(
             'cdiuser' => __DIR__ . '/../view',
         ),
     ),
-    'cdiuser_options' => array(
-        'register_session' => true,
-        'session_life_time' => 122,
-        'keepalive' => 120,
-    ),
     'controllers' => array(
         'invokables' => array(
-            'zfcuseradmin' => 'CdiUser\Controller\UserAdminController',
-            'usersession' => 'CdiUser\Controller\UserSessionController',
+            'cdiuseradmin' => 'CdiUser\Controller\UserAdminController',
         ),
-    ),
-    'view_helpers' => array(
-        'invokables' => array(
-            'JsKeepalive' => 'CdiUser\View\Helper\JsKeepalive', //Need JavaScript and JQuery
-        )
     ),
     'router' => array(
         'routes' => array(
@@ -146,7 +151,4 @@ return array(
             ),
         ),
     ),
-    'zfcuseradmin' => array(
-        'zfcuseradmin_mapper' => 'CdiUser\Mapper\UserZendDb',
-    )
 );
