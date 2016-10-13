@@ -5,7 +5,7 @@ CdiUser
 
 CdiUser modulo de usuarios para Zend Framework 3 y Doctrine
 
-
+La mayor parte del modulo esta basada en el modulo de Danielss89: https://github.com/Danielss89/ZfcUserAdmin.git
 
 Instalacion
 ============
