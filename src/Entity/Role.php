@@ -32,7 +32,7 @@ class Role implements HierarchicalRoleInterface
     /**
      * @var HierarchicalRoleInterface[]|\Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="HierarchicalRole")
+     * @ORM\ManyToMany(targetEntity="Role")
      */
     protected $children = [];
 
@@ -129,4 +129,9 @@ class Role implements HierarchicalRoleInterface
     {
         return !$this->children->isEmpty();
     }
+    
+    public function __toString() {
+        return $this->name;
+    }
+
 }

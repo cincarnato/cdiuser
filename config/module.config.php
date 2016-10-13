@@ -1,28 +1,30 @@
 <?php
 
+use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
+
 return array(
     'cdiuser' => array(
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'user_list_elements' => array(
             'Id' => 'id',
-            'Name' => 'displayName',
+            'Username' => 'username',
             'Email' => 'email',
-            'Rol' => 'role',
-            'Tel' => 'tel'),
+            'Rol' => 'role'),
         'create_user_auto_password' => false,
         'create_form_elements' => array(
-            'Name' => 'displayName',
+         //   'Name' => 'displayName',
         ),
         'edit_form_elements' => array(
-            'Name' => 'displayName',
+          //  'Name' => 'displayName',
         ),
     ),
     'doctrine' => array(
         'driver' => array(
-            // overriding zfc-user-doctrine-orm's config
+// overriding zfc-user-doctrine-orm's config
             'zfcuser_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-                'paths' => __DIR__ . '/../src/CdiUser/Entity',
+                'paths' => __DIR__ . '/../src/Entity',
             ),
             'orm_default' => array(
                 'drivers' => array(
@@ -32,7 +34,7 @@ return array(
         ),
     ),
     'zfcuser' => array(
-        // telling ZfcUser to use our own class
+// telling ZfcUser to use our own class
         'user_entity_class' => 'CdiUser\Entity\User',
         // telling ZfcUserDoctrineORM to skip the entities it defines
         'enable_default_entities' => false,
@@ -46,90 +48,57 @@ return array(
             'cdiuser' => __DIR__ . '/../view',
         ),
     ),
-    'controllers' => array(
-        'invokables' => array(
-            'cdiuseradmin' => 'CdiUser\Controller\UserAdminController',
-        ),
-    ),
     'router' => array(
         'routes' => array(
             'cdiuser' => array(
                 'type' => 'Literal',
-                'priority' => 1000,
                 'options' => array(
-                    'route' => '/cdiuser',
+                    'route' => '/admin',
                     'defaults' => array(
-                        'controller' => 'usersession',
+                        'controller' => 'cdiuseradmin',
                         'action' => 'index',
                     ),
                 ),
                 'child_routes' => array(
-                    'keepalive' => array(
+                    'list' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/keepalive',
+                            'route' => '/list[/:p]',
                             'defaults' => array(
-                                'controller' => 'usersession',
-                                'action' => 'keepalive',
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'list',
                             ),
                         ),
                     ),
-                ),
-            ),
-            'zfcadmin' => array(
-                'child_routes' => array(
-                    'zfcuseradmin' => array(
+                    'create' => array(
                         'type' => 'Literal',
-                        'priority' => 1000,
                         'options' => array(
-                            'route' => '/user',
+                            'route' => '/create',
                             'defaults' => array(
-                                'controller' => 'zfcuseradmin',
-                                'action' => 'index',
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'create'
                             ),
                         ),
-                        'child_routes' => array(
-                            'list' => array(
-                                'type' => 'Segment',
-                                'options' => array(
-                                    'route' => '/list[/:p]',
-                                    'defaults' => array(
-                                        'controller' => 'zfcuseradmin',
-                                        'action' => 'list',
-                                    ),
-                                ),
+                    ),
+                    'edit' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/edit/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'edit',
+                                'userId' => 0
                             ),
-                            'create' => array(
-                                'type' => 'Literal',
-                                'options' => array(
-                                    'route' => '/create',
-                                    'defaults' => array(
-                                        'controller' => 'zfcuseradmin',
-                                        'action' => 'create'
-                                    ),
-                                ),
-                            ),
-                            'edit' => array(
-                                'type' => 'Segment',
-                                'options' => array(
-                                    'route' => '/edit/:userId',
-                                    'defaults' => array(
-                                        'controller' => 'zfcuseradmin',
-                                        'action' => 'edit',
-                                        'userId' => 0
-                                    ),
-                                ),
-                            ),
-                            'remove' => array(
-                                'type' => 'Segment',
-                                'options' => array(
-                                    'route' => '/remove/:userId',
-                                    'defaults' => array(
-                                        'controller' => 'zfcuseradmin',
-                                        'action' => 'remove',
-                                        'userId' => 0
-                                    ),
-                                ),
+                        ),
+                    ),
+                    'remove' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/remove/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'remove',
+                                'userId' => 0
                             ),
                         ),
                     ),
@@ -141,7 +110,7 @@ return array(
         'admin' => array(
             'zfcuseradmin' => array(
                 'label' => 'Users',
-                'route' => 'zfcadmin/zfcuseradmin/list',
+                'route' => 'cdiuser/zfcuseradmin/list',
                 'pages' => array(
                     'create' => array(
                         'label' => 'New User',

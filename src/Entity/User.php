@@ -53,7 +53,7 @@ class User implements UserInterface {
 
     /**
      * 
-     * @ORM\ManyToOne(targetEntity="CdiUser\Entity\HierarchicalRole")
+     * @ORM\ManyToOne(targetEntity="CdiUser\Entity\Role")
      * 
      */
     protected $role;

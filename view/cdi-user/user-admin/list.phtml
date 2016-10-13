@@ -14,7 +14,7 @@ foreach ($this->userlistElements as $element) {
 <div class="navbar filter-bar">
     <div class="navbar-inner">
         <div class="pull-right">
-            <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/create') ?>" class="btn btn-primary">
+            <a href="<?php echo $this->url('cdiuser/create') ?>" class="btn btn-primary">
                 <?php echo $this->translate('Add New User') ?>
             </a>
         </div>
@@ -40,11 +40,11 @@ foreach ($this->userlistElements as $element) {
                 </td>
             <?php endforeach; ?>
             <td class="cell cell-ctrls">
-                <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $user->getId())); ?>">
+                <a href="<?php echo $this->url('cdiuser/edit', array('userId' => $user->getId())); ?>">
                     <?php echo $this->translate('Edit') ?>
                 </a>
                 |
-                <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $user->getId())); ?>"
+                <a href="<?php echo $this->url('cdiuser/remove', array('userId' => $user->getId())); ?>"
                    onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
                     <?php echo $this->translate('Delete') ?>
                 </a>

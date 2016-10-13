@@ -4,38 +4,37 @@ namespace CdiUser\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Paginator;
-use Zend\Stdlib\Hydrator\ClassMethods;
 use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use CdiUser\Options\ModuleOptions;
 
 class UserAdminController extends AbstractActionController {
 
-    protected $options, $userMapper;
-    protected $zfcUserOptions;
+    /** @var array */
+    protected $options;
+    protected $userMapper;
 
-    /**
-     * @var \CdiUser\Service\User
-     */
+    /** @var \CdiUser\Form\CreateUser */
+    protected $createUserForm;
+
+    /** @var \CdiUser\Form\EditUser */
+    protected $editUserForm;
+
+    /** @var \CdiUser\Service\User */
     protected $adminUserService;
 
+    /** @var array */
+    protected $zfcUserOptions;
 
-    //TEMPORAL
-
-    /**
-     * @var Doctrine\ORM\EntityManager
-     */
-    protected $em;
-
-    public function setEntityManager(EntityManager $em) {
-        $this->em = $em;
-    }
-
-    public function getEntityManager() {
-        if (null === $this->em) {
-            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-        }
-        return $this->em;
+    public function __construct(
+    $createUserForm, $editUserForm, ModuleOptions $options = null, UserInterface $userMapper = null, $adminUserService = null, ZfcUserModuleOptions $zfcUserOptions = null
+    ) {
+        $this->createUserForm = $createUserForm;
+        $this->editUserForm = $editUserForm;
+        $this->options = $options;
+        $this->userMapper = $userMapper;
+        $this->adminUserService = $adminUserService;
+        $this->zfcUserOptions = $zfcUserOptions;
     }
 
     public function listAction() {
@@ -46,8 +45,7 @@ class UserAdminController extends AbstractActionController {
         } else {
             $paginator = $users;
         }
-
-        $paginator->setItemCountPerPage(50);
+        $paginator->setItemCountPerPage(100);
         $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
         return array(
             'users' => $paginator,
@@ -56,27 +54,25 @@ class UserAdminController extends AbstractActionController {
     }
 
     public function createAction() {
-        /** @var $form \CdiUser\Form\CreateUser */
-        $form = $this->getServiceLocator()->get('cdiuser_createuser_form');
+        /** @var $form \ZfcUserAdmin\Form\CreateUser */
+        $form = $this->createUserForm;
         $request = $this->getRequest();
-
         /** @var $request \Zend\Http\Request */
         if ($request->isPost()) {
             $zfcUserOptions = $this->getZfcUserOptions();
             $class = $zfcUserOptions->getUserEntityClass();
             $user = new $class();
+            //$form->setHydrator(new ClassMethods());
             $form->bind($user);
             $form->setData($request->getPost());
-
             if ($form->isValid()) {
                 $user = $this->getAdminUserService()->create($form, (array) $request->getPost());
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was created');
-                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+                    return $this->redirect()->toRoute('cdiuser/list');
                 }
             }
         }
-
         return array(
             'createUserForm' => $form
         );
@@ -85,39 +81,23 @@ class UserAdminController extends AbstractActionController {
     public function editAction() {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
         $user = $this->getUserMapper()->findById($userId);
-
-        /** @var $form \CdiUser\Form\EditUser */
-        $form = $this->getServiceLocator()->get('cdiuser_edituser_form');
-        $form->setUser($user);
-
-        //Si se pone el bind, levanta la password en el form y es un problema
+        $form = $this->editUserForm;
+       // $form->setUser($user);
         $form->bind($user);
-
-
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-
-                //Provisiorio. Se debe mover.  
-//                $role = $this->getEntityManager()->find("CdiUser\Entity\Role", $this->params()->fromPost('role'));
-//                $user->setRole($role);
-
                 $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user);
-
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was edited');
-                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
+                    return $this->redirect()->toRoute('cdiuser/list');
                 }
             }
         } else {
-
             $form->populateFromUser($user);
-            //Parche para mostrar el rol adeacuado
-            $form->get('rol')->setValue($user->getRoles()->getId());
         }
-
         return array(
             'editUserForm' => $form,
             'userId' => $userId
@@ -126,7 +106,6 @@ class UserAdminController extends AbstractActionController {
 
     public function removeAction() {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
-
         /** @var $identity \ZfcUser\Entity\UserInterface */
         $identity = $this->zfcUserAuthentication()->getIdentity();
         if ($identity && $identity->getId() == $userId) {
@@ -138,41 +117,7 @@ class UserAdminController extends AbstractActionController {
                 $this->flashMessenger()->addSuccessMessage('The user was deleted');
             }
         }
-
-        return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
-    }
-
-    public function roleAction() {
-        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
-        $user = $this->getUserMapper()->findById($userId);
-
-        $form = $this->getServiceLocator()->get('zfcuseradmin_roleuser_form');
-        $form->setUser($user);
-
-
-        /** @var $request \Zend\Http\Request */
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $form->setData($request->getPost());
-            if ($form->isValid()) {
-
-                //Aca debo persistir
-                $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user);
-
-                //Si persiste ok
-                if ($user) {
-                    $this->flashMessenger()->addSuccessMessage('The user role was edited');
-                    return $this->redirect()->toRoute('zfcadmin/zfcuseradmin/list');
-                }
-            }
-        } else {
-            $form->populateFromUser($user);
-        }
-
-        return array(
-            'roleUserForm' => $form,
-            'userId' => $userId
-        );
+        return $this->redirect()->toRoute('cdiuser/list');
     }
 
     public function setOptions(ModuleOptions $options) {
@@ -181,16 +126,10 @@ class UserAdminController extends AbstractActionController {
     }
 
     public function getOptions() {
-        if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceLocator()->get('zfcuseradmin_module_options'));
-        }
         return $this->options;
     }
 
     public function getUserMapper() {
-        if (null === $this->userMapper) {
-            $this->userMapper = $this->getServiceLocator()->get('zfcuser_user_mapper');
-        }
         return $this->userMapper;
     }
 
@@ -200,9 +139,6 @@ class UserAdminController extends AbstractActionController {
     }
 
     public function getAdminUserService() {
-        if (null === $this->adminUserService) {
-            $this->adminUserService = $this->getServiceLocator()->get('cdiuser_user_service');
-        }
         return $this->adminUserService;
     }
 
@@ -220,9 +156,6 @@ class UserAdminController extends AbstractActionController {
      * @return \ZfcUser\Options\ModuleOptions
      */
     public function getZfcUserOptions() {
-        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
-            $this->setZfcUserOptions($this->getServiceLocator()->get('zfcuser_module_options'));
-        }
         return $this->zfcUserOptions;
     }
 

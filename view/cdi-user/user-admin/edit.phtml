@@ -1,7 +1,7 @@
 <?php
 $form = $this->editUserForm;
 $form->prepare();
-$form->setAttribute('action', $this->url('zfcadmin/zfcuseradmin/edit', array('userId' => $this->userId)));
+$form->setAttribute('action', $this->url('cdiuser/edit', array('userId' => $this->userId)));
 $form->setAttribute('method', 'post');
 ?>
 
@@ -16,7 +16,7 @@ $form->setAttribute('method', 'post');
                 <?php include '_form.phtml'; ?>   
             </div>
             <div class="panel-footer">
-                <a href="<?php echo $this->url('zfcadmin/zfcuseradmin/remove', array('userId' => $this->userId)); ?>"
+                <a href="<?php echo $this->url('cdiuser/remove', array('userId' => $this->userId)); ?>"
                    onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
                        <?php echo $this->translate('Delete') ?>
                 </a>

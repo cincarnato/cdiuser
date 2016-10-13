@@ -13,7 +13,7 @@ namespace CdiUser\Factory\Form;
  */
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use CdiUser\Form\CreateUser;
+use CdiUser\Form\CreateUserForm;
 use ZfcUser\Form\RegisterFilter;
 use ZfcUser\Validator\NoRecordExists;
 
@@ -25,7 +25,7 @@ class CreateUserFactory implements FactoryInterface {
         /** @var $CdiUserOptions \CdiUser\Options\ModuleOptions */
         $cdiUserOptions = $container->get('cdiuser_module_options');
         
-        $form = new CreateUser(null,$zfcUserOptions,$cdiUserOptions);
+        $form = new CreateUserForm("CreateUser",$zfcUserOptions,$cdiUserOptions);
 
         
         //Agrego object Select con doctrine para desplegar los roles
@@ -45,10 +45,10 @@ class CreateUserFactory implements FactoryInterface {
         //Filtro para evitar repetidos
         $filter = new RegisterFilter(
                 new NoRecordExists(array(
-            'mapper' => $sm->get('zfcuser_user_mapper'),
+            'mapper' => $container->get('zfcuser_user_mapper'),
             'key' => 'email'
                 )), new NoRecordExists(array(
-            'mapper' => $sm->get('zfcuser_user_mapper'),
+            'mapper' => $container->get('zfcuser_user_mapper'),
             'key' => 'username'
                 )), $zfcUserOptions
         );

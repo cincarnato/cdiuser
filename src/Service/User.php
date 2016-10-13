@@ -4,17 +4,15 @@ namespace CdiUser\Service;
 
 use Zend\Form\Form;
 use Zend\Math\Rand;
-use Zend\ServiceManager\ServiceManagerAwareInterface;
-use Zend\ServiceManager\ServiceManager;
 use Zend\Crypt\Password\Bcrypt;
-use ZfcBase\EventManager\EventProvider;
+use CdiUser\EventManager\EventProvider;
 use ZfcUser\Entity\UserInterface;
 use CdiUser\Options\ModuleOptions;
 use ZfcUser\Mapper\UserInterface as UserMapperInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 
 
-class User extends EventProvider implements ServiceManagerAwareInterface
+class User extends EventProvider
 {
 
     /**
@@ -23,22 +21,26 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     protected $userMapper;
 
     /**
-     * @var ServiceManager
-     */
-    protected $serviceManager;
-
-    /**
      * @var \ZfcUser\Options\UserServiceOptionsInterface
      */
-    protected $options;
+    protected $cdiUserOptions;
 
     /**
      * @var ZfcUserModuleOptions
      */
     protected $zfcUserOptions;
 
-
-    /**
+      public function __construct(
+        UserMapperInterface $userMapper,
+        ModuleOptions $cdiUserOptions,
+        ZfcUserModuleOptions $zfcUserOptions
+    ) {
+        $this->userMapper = $userMapper;
+        $this->cdiUserOptions = $cdiUserOptions;
+        $this->zfcUserOptions = $zfcUserOptions;
+  
+    }
+/**
      * @param Form $form
      * @param array $data
      * @return UserInterface|null
@@ -47,9 +49,8 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     {
         $zfcUserOptions = $this->getZfcUserOptions();
         $user = $form->getData();
-
         $argv = array();
-        if ($this->getOptions()->getCreateUserAutoPassword()) {
+        if ($this->getCdiUserOptions()->getCreateUserAutoPassword()) {
             $argv['password'] = $this->generatePassword();
         } else {
             $argv['password'] = $user->getPassword();
@@ -57,18 +58,15 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         $bcrypt = new Bcrypt;
         $bcrypt->setCost($zfcUserOptions->getPasswordCost());
         $user->setPassword($bcrypt->create($argv['password']));
-
-        foreach ($this->getOptions()->getCreateFormElements() as $element) {
+        foreach ($this->getCdiUserOptions()->getCreateFormElements() as $element) {
             call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
         }
-
         $argv += array('user' => $user, 'form' => $form, 'data' => $data);
         $this->getEventManager()->trigger(__FUNCTION__, $this, $argv);
         $this->getUserMapper()->insert($user);
         $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, $argv);
         return $user;
     }
-
     /**
      * @param Form $form
      * @param array $data
@@ -78,49 +76,42 @@ class User extends EventProvider implements ServiceManagerAwareInterface
     public function edit(Form $form, array $data, UserInterface $user)
     {
         // first, process all form fields
-        foreach ($data as $key => $value) {
-            if ($key == 'password') continue;
-
-            $setter = $this->getAccessorName($key);
-            if (method_exists($user, $setter)) call_user_func(array($user, $setter), $value);
-        }
-
+//        foreach ($data as $key => $value) {
+//            if ($key == 'password') continue;
+//            $setter = $this->getAccessorName($key);
+//            if (method_exists($user, $setter)) call_user_func(array($user, $setter), $value);
+//        }
         $argv = array();
         // then check if admin wants to change user password
-        if ($this->getOptions()->getAllowPasswordChange()) {
+        if ($this->getCdiUserOptions()->getAllowPasswordChange()) {
             if (!empty($data['reset_password'])) {
                 $argv['password'] = $this->generatePassword();
             } elseif (!empty($data['password'])) {
                 $argv['password'] = $data['password'];
             }
-
             if (!empty($argv['password'])) {
                 $bcrypt = new Bcrypt();
                 $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
                 $user->setPassword($bcrypt->create($argv['password']));
             }
         }
-
-        // TODO: not sure if this code is required here - all fields that came from the form already saved
-        foreach ($this->getOptions()->getEditFormElements() as $element) {
-            call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
-        }
-
+//        // TODO: not sure if this code is required here - all fields that came from the form already saved
+//        foreach ($this->getCdiUserOptions()->getEditFormElements() as $element) {
+//            call_user_func(array($user, $this->getAccessorName($element)), $data[$element]);
+//        }
         $argv += array('user' => $user, 'form' => $form, 'data' => $data);
         $this->getEventManager()->trigger(__FUNCTION__, $this, $argv);
         $this->getUserMapper()->update($user);
         $this->getEventManager()->trigger(__FUNCTION__ . '.post', $this, $argv);
         return $user;
     }
-
     /**
      * @return string
      */
     public function generatePassword()
     {
-        return Rand::getString($this->getOptions()->getAutoPasswordLength());
+        return Rand::getString($this->getCdiUserOptions()->getAutoPasswordLength());
     }
-
     protected function getAccessorName($property, $set = true)
     {
         $parts = explode('_', $property);
@@ -129,71 +120,35 @@ class User extends EventProvider implements ServiceManagerAwareInterface
         });
         return (($set ? 'set' : 'get') . implode('', $parts));
     }
-
     public function getUserMapper()
     {
-        if (null === $this->userMapper) {
-            $this->userMapper = $this->getServiceManager()->get('zfcuser_user_mapper');
-        }
         return $this->userMapper;
     }
-
     public function setUserMapper(UserMapperInterface $userMapper)
     {
         $this->userMapper = $userMapper;
         return $this;
     }
-
-    public function setOptions(ModuleOptions $options)
+    public function setCdiUserOptions(ModuleOptions $cdiUserOptions)
     {
-        $this->options = $options;
+        $this->cdiUserOptions = $cdiUserOptions;
         return $this;
     }
-
-    public function getOptions()
+    public function getCdiUserOptions()
     {
-        if (!$this->options instanceof ModuleOptions) {
-            $this->setOptions($this->getServiceManager()->get('zfcuseradmin_module_options'));
-        }
-        return $this->options;
+        return $this->cdiUserOptions;
     }
-
-    public function setZfcUserOptions(ZfcUserModuleOptions $options)
+    public function setZfcUserOptions(ZfcUserModuleOptions $cdiUserOptions)
     {
-        $this->zfcUserOptions = $options;
+        $this->zfcUserOptions = $cdiUserOptions;
         return $this;
     }
-
     /**
      * @return \ZfcUser\Options\ModuleOptions
      */
     public function getZfcUserOptions()
     {
-        if (!$this->zfcUserOptions instanceof ZfcUserModuleOptions) {
-            $this->setZfcUserOptions($this->getServiceManager()->get('zfcuser_module_options'));
-        }
         return $this->zfcUserOptions;
     }
-
-    /**
-     * Retrieve service manager instance
-     *
-     * @return ServiceManager
-     */
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
-    }
-
-    /**
-     * Set service manager instance
-     *
-     * @param ServiceManager $serviceManager
-     * @return User
-     */
-    public function setServiceManager(ServiceManager $serviceManager)
-    {
-        $this->serviceManager = $serviceManager;
-        return $this;
-    }
 }
+

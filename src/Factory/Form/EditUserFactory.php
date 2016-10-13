@@ -13,9 +13,9 @@ namespace CdiUser\Factory\Form;
  */
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use CdiUser\Form\EditUser;
+use CdiUser\Form\EditUserForm;
 use ZfcUser\Form\RegisterFilter;
-use ZfcUser\Validator\NoRecordExists;
+use CdiUser\Validator\NoRecordExistsEdit;
 
 class EditUserFactory implements FactoryInterface {
 
@@ -24,14 +24,14 @@ class EditUserFactory implements FactoryInterface {
         $zfcUserOptions = $container->get('zfcuser_module_options');
         /** @var $CdiUserOptions \CdiUser\Options\ModuleOptions */
         $cdiUserOptions = $container->get('cdiuser_module_options');
+         
 
-        $form = new EditUser(null, $zfcUserOptions, $cdiUserOptions);
+        $form = new EditUserForm("EditUser", $zfcUserOptions, $cdiUserOptions);
 
 
-        //Agrego object Select con doctrine para desplegar los roles
+       //Defino el hidrator doctrine y agrego object select para role
         $om = $container->get('doctrine.entitymanager.orm_default');
-        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($om, 'CdiUser\Entity\User'))
-                ->setObject(new \CdiUser\Entity\User());
+        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($om, 'CdiUser\Entity\User'));
         $form->add(array(
             'name' => 'role',
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
@@ -44,11 +44,11 @@ class EditUserFactory implements FactoryInterface {
 
         //Filtro para evitar repetidos
         $filter = new RegisterFilter(
-                new NoRecordExists(array(
-            'mapper' => $sm->get('zfcuser_user_mapper'),
+                new NoRecordExistsEdit(array(
+            'mapper' => $container->get('zfcuser_user_mapper'),
             'key' => 'email'
-                )), new NoRecordExists(array(
-            'mapper' => $sm->get('zfcuser_user_mapper'),
+                )), new NoRecordExistsEdit(array(
+            'mapper' => $container->get('zfcuser_user_mapper'),
             'key' => 'username'
                 )), $zfcUserOptions
         );
