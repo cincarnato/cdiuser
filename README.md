@@ -3,9 +3,9 @@ CdiUser
 
 **Que es CdiUser**
 
-CdiUser modulo de usuarios para Zend Framework 3 y Doctrine
+CdiUser es un modulo que trabaja junto a ZfcUser, ZfcUserDoctrineORM and BjyAuthorize.
+Se agrega administracion de usuarios
 
-La mayor parte del modulo esta basada en el modulo de Danielss89: https://github.com/Danielss89/ZfcUserAdmin.git
 
 Instalacion
 ============
@@ -13,21 +13,22 @@ Instalacion
 Installation via composer, agregar a composer.json:
 ```
 "require" : {
-    "cdi/cdiuser": "^3.0.0"
+    "cdi/cdiuser": "dev-master"
 }
 ```
 
-Cargar ```CdiUser``` **despues** de ```ZfcUser``` . Un ejemplo:
+Cargar ```CdiUser``` **despues** de ```ZfcUser``` and ```BjyAuthorize```. Un ejemplo:
 
 ```
 'modules' => array(
-    
+    'Application',
     'DoctrineModule',
     'DoctrineORMModule',
+    'ZfcBase',
     'ZfcUser',
     'ZfcUserDoctrineORM',
-    'CdiUser'
-    'Application',        
+    'BjyAuthorize',
+    'CdiUser'             
 )
 ```
 
@@ -36,5 +37,6 @@ Dependencias
 ============
 
  - ZfcUser
- - ZfcUserDoctrineORM
  - DoctrineORMModule
+ - ZfcUserDoctrineORM
+ - BjyAuthorize

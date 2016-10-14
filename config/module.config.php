@@ -4,6 +4,8 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
 return array(
+    'zfcuser' => require __DIR__ . '/zfcuser.config.php',
+    'zfc_rbac' => require __DIR__ . '/zfc_rbac.config.php',
     'cdiuser' => array(
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'user_list_elements' => array(
@@ -33,15 +35,7 @@ return array(
             ),
         ),
     ),
-    'zfcuser' => array(
-// telling ZfcUser to use our own class
-        'user_entity_class' => 'CdiUser\Entity\User',
-        // telling ZfcUserDoctrineORM to skip the entities it defines
-        'enable_default_entities' => false,
-        'enable_registration' => true,
-        'enable_username' => true,
-        'auth_identity_fields' => array('email', 'username'),
-    ),
+    
     'view_manager' => array(
         'template_path_stack' => array(
             'zfcuseradmin' => __DIR__ . '/../view',

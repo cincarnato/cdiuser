@@ -1,13 +1,12 @@
 {
     "name":         "cdi/cdiuser",
-    "description":  "Modulo para usar junto a ZfcUser, BjyAuthorize y Doctrine 2",
+    "description":  "Modulo para usar junto a ZfcUser, rbac y Doctrine",
     "type":         "library",
     "license":      "BSD-3-Clause",
     "homepage":     "https://github.com/cincarnato",
     "keywords": [
-        "zf2",
+        "zf3",
         "zfc-user",
-        "bjy-authorize",
         "doctrine-orm-module",
         "doctrine"
     ],
@@ -31,9 +30,7 @@
     "autoload": {
         "psr-4": {
             "CdiUser\\": "src/"
-        },
-         "classmap": [
-            "./Module.php"
-            ]
+        }
+
     }
 }
