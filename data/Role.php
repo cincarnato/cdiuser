@@ -1,19 +1,18 @@
 <?php
-
 namespace CdiUser\Entity;
+
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Rbac\Role\HierarchicalRoleInterface;
 use ZfcRbac\Permission\PermissionInterface;
-use Doctrine\Common\Collections\Criteria;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="roles")
  */
-class Role implements HierarchicalRoleInterface {
-
+class Role implements HierarchicalRoleInterface
+{
     /**
      * @var int|null
      *
@@ -40,15 +39,16 @@ class Role implements HierarchicalRoleInterface {
     /**
      * @var PermissionInterface[]|\Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Permission", indexBy="name", fetch="LAZY")
+     * @ORM\ManyToMany(targetEntity="Permission", indexBy="name", fetch="EAGER")
      */
     protected $permissions;
 
     /**
      * Init the Doctrine collection
      */
-    public function __construct() {
-        $this->children = new ArrayCollection();
+    public function __construct()
+    {
+        $this->children    = new ArrayCollection();
         $this->permissions = new ArrayCollection();
     }
 
@@ -57,7 +57,8 @@ class Role implements HierarchicalRoleInterface {
      *
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -67,7 +68,8 @@ class Role implements HierarchicalRoleInterface {
      * @param  string $name
      * @return void
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = (string) $name;
     }
 
@@ -76,31 +78,36 @@ class Role implements HierarchicalRoleInterface {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addChild(HierarchicalRoleInterface $child) {
+    public function addChild(HierarchicalRoleInterface $child)
+    {
         $this->children[] = $child;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addPermission($permission) {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('name', (string) $permission));
-        $result = $this->permissions->matching($criteria);
+    public function addPermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = new Permission($permission);
+        }
 
-        return count($result) > 0;
+        $this->permissions[(string) $permission] = $permission;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function hasPermission($permission) {
+    public function hasPermission($permission)
+    {
         // This can be a performance problem if your role has a lot of permissions. Please refer
         // to the cookbook to an elegant way to solve this issue
 
@@ -110,17 +117,19 @@ class Role implements HierarchicalRoleInterface {
     /**
      * {@inheritDoc}
      */
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function hasChildren() {
+    public function hasChildren()
+    {
         return !$this->children->isEmpty();
     }
-
+    
     public function __toString() {
         return $this->name;
     }

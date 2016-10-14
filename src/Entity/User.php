@@ -4,7 +4,9 @@ namespace CdiUser\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
-
+use ZfcRbac\Identity\IdentityInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 /**
  *
  * @ORM\Entity
@@ -12,7 +14,7 @@ use ZfcUser\Entity\UserInterface;
  *
  * @author Cristian Incarnato <cristian.cdi@gmail.com>
  */
-class User implements UserInterface {
+class User implements UserInterface, IdentityInterface {
 
     /**
      * @var int
@@ -76,6 +78,17 @@ class User implements UserInterface {
      * @ORM\Column(type="string", length=15, unique=false, nullable=true, name="last_ip")
      */
     protected $lastIp;
+    
+    /**
+     * @var Collection
+     */
+    private $roles;
+
+    public function __construct() {
+        $this->roles = new ArrayCollection();
+    }
+
+   
 
     function getId() {
         return $this->id;
@@ -165,4 +178,27 @@ class User implements UserInterface {
         }
     }
 
+     /**
+     * {@inheritDoc}
+     */
+    public function getRoles() {
+        return [$this->getRole()->getName()];
+    }
+
+    /**
+     * Set the list of roles
+     * @param Collection $roles
+     */
+    public function setRoles(Collection $roles) {
+        $this->roles->clear();
+          $this->roles[] = $this->role;
+    }
+
+    /**
+     * Add one role to roles list
+     * @param \Rbac\Role\RoleInterface $role
+     */
+    public function addRole(RoleInterface $role) {
+        $this->roles[] = $role;
+    }
 }
