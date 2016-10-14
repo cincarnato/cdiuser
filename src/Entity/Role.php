@@ -91,10 +91,11 @@ class Role implements HierarchicalRoleInterface {
      * {@inheritDoc}
      */
     public function addPermission($permission) {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('name', (string) $permission));
-        $result = $this->permissions->matching($criteria);
+        if (is_string($permission)) {
+            $permission = new Permission($permission);
+        }
 
-        return count($result) > 0;
+        $this->permissions[(string) $permission] = $permission;
     }
 
     /**
@@ -104,7 +105,10 @@ class Role implements HierarchicalRoleInterface {
         // This can be a performance problem if your role has a lot of permissions. Please refer
         // to the cookbook to an elegant way to solve this issue
 
-        return isset($this->permissions[(string) $permission]);
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('name', (string) $permission));
+        $result = $this->permissions->matching($criteria);
+
+        return count($result) > 0;
     }
 
     /**
