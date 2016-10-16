@@ -23,7 +23,6 @@ return array(
     ),
     'doctrine' => array(
         'driver' => array(
-// overriding zfc-user-doctrine-orm's config
             'zfcuser_entity' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'paths' => __DIR__ . '/../src/Entity',
@@ -38,7 +37,6 @@ return array(
     
     'view_manager' => array(
         'template_path_stack' => array(
-            'zfcuseradmin' => __DIR__ . '/../view',
             'cdiuser' => __DIR__ . '/../view',
         ),
     ),
@@ -102,13 +100,13 @@ return array(
     ),
     'navigation' => array(
         'admin' => array(
-            'zfcuseradmin' => array(
+            'cdiuser' => array(
                 'label' => 'Users',
-                'route' => 'cdiuser/zfcuseradmin/list',
+                'route' => 'cdiuser/list',
                 'pages' => array(
                     'create' => array(
                         'label' => 'New User',
-                        'route' => 'zfcadmin/zfcuseradmin/create',
+                        'route' => 'cdiuser/create',
                     ),
                 ),
             ),

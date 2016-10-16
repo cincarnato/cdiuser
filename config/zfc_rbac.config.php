@@ -32,9 +32,6 @@ return [
     ],
     'guest_role' => 'guest',
     'unauthorized_strategy' => [
-        /**
-         * Set the template name to render
-         */
         'template' => 'error/403'
     ],
     'redirect_strategy' => [
@@ -49,7 +46,7 @@ return [
         /**
          * Set the route to redirect when user is disconnected (of course, it must exist!)
          */
-        'redirect_to_route_disconnected' => 'login',
+        'redirect_to_route_disconnected' => 'zfcuser/login',
         /**
          * If a user is unauthorized and redirected to another route (login, for instance), should we
          * append the previous URI (the one that was unauthorized) in the query params?
@@ -59,6 +56,6 @@ return [
          * If append_previous_uri option is set to true, this option set the query key to use when
          * the previous uri is appended
          */
-        'previous_uri_query_key' => 'redirectTo'
+        'previous_uri_query_key' => 'redirect'
     ],
 ];
