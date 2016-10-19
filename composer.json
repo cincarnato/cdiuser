@@ -24,7 +24,7 @@
         "php": ">=5.5",
         "zendframework/zend-mvc": "^3.0.1",
         "doctrine/doctrine-orm-module": "^1.0",
-        "zf-commons/zfc-user": "dev-master / 2.0.x-dev",
+        "zf-commons/zfc-user": "2.0.x-dev",
         "zf-commons/zfc-user-doctrine-orm": "dev-master",
         "zf-commons/zfc-rbac": "dev-master"
     },
