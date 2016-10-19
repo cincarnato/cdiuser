@@ -9,8 +9,8 @@ use CdiUser\Controller\UserAdminController;
 class UserAdminControllerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL) {
-        $createUserForm = $container->get('CreateUserForm');
-        $editUserForm = $container->get('EditUserForm');
+        $createUserForm = $container->get(\CdiUser\Form\CreateUserForm::class);
+        $editUserForm = $container->get(\CdiUser\Form\EditUserForm::class);
         $options = $container->get('cdiuser_module_options');
         $userMapper = $container->get('zfcuser_user_mapper');
         $adminUserService = $container->get('cdiuser_user_service');

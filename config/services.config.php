@@ -11,12 +11,14 @@ return [
             $config = $container->get('Config');
             return new \CdiUser\Options\ModuleOptions(isset($config['cdiuser']) ? $config['cdiuser'] : array());
         },
-                'EditUserForm' => \CdiUser\Factory\Form\EditUserFactory::class,
-                'CreateUserForm' => \CdiUser\Factory\Form\CreateUserFactory::class,
+                CdiUser\Form\EditUserForm::class => \CdiUser\Factory\Form\EditUserFactory::class,
+                CdiUser\Form\CreateUserForm::class => \CdiUser\Factory\Form\CreateUserFactory::class,
                 'cdiuser_user_service' => \CdiUser\Factory\Service\UserFactory::class,
                 'zfcuser_user_mapper' => \CdiUser\Factory\Mapper\UserMapperFactory::class,
             ],
         ];
+
+
 
 
 
