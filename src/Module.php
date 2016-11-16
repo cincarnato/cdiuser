@@ -1,7 +1,9 @@
 <?php
 
 namespace CdiUser;
+
 use Zend\EventManager\EventInterface;
+
 class Module {
 
     public function getControllerConfig() {
@@ -18,12 +20,24 @@ class Module {
 
     public function onBootstrap(EventInterface $e) {
 
-        //RBAC
+        //RBAC-STRATEGY (TO IMPROVE)
         $t = $e->getTarget();
-        $ListenerAggregate =  $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
+        $ListenerAggregate = $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
         $ListenerAggregate->attach($t->getEventManager());
-     
-        
+
+        //RBAC-NAVIGATION
+        $application = $event->getApplication();
+        $eventManager = $application->getEventManager();
+        $sharedEventManager = $eventManager->getSharedManager();
+        $serviceManager = $application->getServiceManager();
+        $rbacListener = $serviceManager->get('CdiUser\Listener\RbacListener');
+
+        $sharedEventManager->attach(
+                'Zend\View\Helper\Navigation\AbstractHelper', 'isAllowed', array($rbacListener, 'accept')
+        );
+
+
+
         //Asigno un Rol al usuario que se registra
         $zfcServiceEvents = $e->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
         $zfcServiceEvents->attach('register', function($e) use($e) {
