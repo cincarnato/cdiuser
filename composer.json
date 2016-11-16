@@ -1,10 +1,10 @@
 {
-    "name":         "cdi/cdiuser",
-    "description":  "Modulo para usar junto a ZfcUser, rbac y Doctrine",
-    "type":         "library",
-    "license":      "BSD-3-Clause",
-    "version":      "3.0.9",
-    "homepage":     "https://github.com/cincarnato",
+    "name": "cdi/cdiuser",
+    "description": "Modulo para usar junto a ZfcUser, rbac y Doctrine",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "version": "3.1.0",
+    "homepage": "https://github.com/cincarnato",
     "keywords": [
         "zf3",
         "zfc-user",
@@ -13,18 +13,18 @@
     ],
     "authors": [
         {
-            "name":      "Cristian Incarnato",
-            "email":     "cincarnato@gmail.com",
-            "homepage":  "http://cincarnato.com.ar/",
-            "role":      "Desarrollador"
+            "name": "Cristian Incarnato",
+            "email": "cincarnato@gmail.com",
+            "homepage": "http://cincarnato.com.ar/",
+            "role": "Desarrollador"
         }
     ],
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5",
         "zendframework/zend-mvc": "^3.0.1",
-         "doctrine/doctrine-orm-module": "0.9.*",
-        "zf-commons/zfc-user": "dev-master",
+        "doctrine/doctrine-orm-module": "^1.0",
+        "zf-commons/zfc-user": "2.x-dev",
         "zf-commons/zfc-user-doctrine-orm": "dev-master",
         "zf-commons/zfc-rbac": "dev-master"
     },
