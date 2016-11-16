@@ -26,7 +26,7 @@ class Module {
         $ListenerAggregate->attach($t->getEventManager());
 
         //RBAC-NAVIGATION
-        $application = $event->getApplication();
+        $application = $e->getApplication();
         $eventManager = $application->getEventManager();
         $sharedEventManager = $eventManager->getSharedManager();
         $serviceManager = $application->getServiceManager();
