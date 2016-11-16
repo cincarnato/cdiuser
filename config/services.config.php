@@ -7,6 +7,7 @@ return [
         'Zend\Authentication\AuthenticationService' => 'zfcuser_auth_service'
     ],
     'factories' => [
+        'CdiUser\Listener\RbacListener' => 'CdiUser\Factory\Listener\RbacListenerFactory',
         'cdiuser_module_options' => function (ContainerInterface $container) {
             $config = $container->get('Config');
             return new \CdiUser\Options\ModuleOptions(isset($config['cdiuser']) ? $config['cdiuser'] : array());

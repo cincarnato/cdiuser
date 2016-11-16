@@ -13,7 +13,7 @@ Instalacion
 Installation via composer, agregar a composer.json:
 ```
 "require" : {
-    "cdi/cdiuser": "^3.0.0"
+    "cdi/cdiuser": "dev-master"
 }
 ```
 

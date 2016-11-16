@@ -3,7 +3,7 @@
     "description":  "Modulo para usar junto a ZfcUser, rbac y Doctrine",
     "type":         "library",
     "license":      "BSD-3-Clause",
-    "version":      "3.0.7",
+    "version":      "3.0.4",
     "homepage":     "https://github.com/cincarnato",
     "keywords": [
         "zf3",
@@ -23,8 +23,8 @@
     "require": {
         "php": ">=5.5",
         "zendframework/zend-mvc": "^3.0.1",
-        "doctrine/doctrine-orm-module": "^1.0",
-        "zf-commons/zfc-user": "2.x-dev",
+         "doctrine/doctrine-orm-module": "0.9.*",
+        "zf-commons/zfc-user": "dev-master",
         "zf-commons/zfc-user-doctrine-orm": "dev-master",
         "zf-commons/zfc-rbac": "dev-master"
     },
