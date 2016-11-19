@@ -7,6 +7,7 @@ use Zend\Paginator;
 use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use CdiUser\Options\ModuleOptions;
+use Zend\View\Model\ViewModel;
 
 class UserAdminController extends AbstractActionController {
 
@@ -26,9 +27,24 @@ class UserAdminController extends AbstractActionController {
     /** @var array */
     protected $zfcUserOptions;
 
-    public function __construct(
-    $createUserForm, $editUserForm, ModuleOptions $options = null, UserInterface $userMapper = null, $adminUserService = null, ZfcUserModuleOptions $zfcUserOptions = null
+    /**
+     * Description
+     * 
+     * @var \CdiDataGrid\Grid 
+     */
+    protected $grid;
+
+    function getGrid() {
+        return $this->grid;
+    }
+
+    function setGrid(\CdiDataGrid\Grid $grid) {
+        $this->grid = $grid;
+    }
+
+    public function __construct(\CdiDataGrid\Grid $grid, $createUserForm, $editUserForm, ModuleOptions $options = null, UserInterface $userMapper = null, $adminUserService = null, ZfcUserModuleOptions $zfcUserOptions = null
     ) {
+        $this->grid = $grid;
         $this->createUserForm = $createUserForm;
         $this->editUserForm = $editUserForm;
         $this->options = $options;
@@ -38,19 +54,16 @@ class UserAdminController extends AbstractActionController {
     }
 
     public function listAction() {
-        $userMapper = $this->getUserMapper();
-        $users = $userMapper->findAll();
-        if (is_array($users)) {
-            $paginator = new Paginator\Paginator(new Paginator\Adapter\ArrayAdapter($users));
-        } else {
-            $paginator = $users;
-        }
-        $paginator->setItemCountPerPage(100);
-        $paginator->setCurrentPageNumber($this->getEvent()->getRouteMatch()->getParam('p'));
-        return array(
-            'users' => $paginator,
-            'userlistElements' => $this->getOptions()->getUserListElements()
-        );
+       // $this->grid->setTemplate("ajax");
+        $this->grid->prepare();
+        
+        
+        //WAre
+        $this->grid->getFormFilters()->remove("password");
+
+        $viewModel = new ViewModel(array('grid' => $this->grid));
+       // $viewModel->setTerminal(true);
+        return $viewModel;
     }
 
     public function createAction() {
@@ -82,14 +95,18 @@ class UserAdminController extends AbstractActionController {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
         $user = $this->getUserMapper()->findById($userId);
         $form = $this->editUserForm;
-       // $form->setUser($user);
+        $originalPassword = $user->getPassword();
+        // $form->setUser($user);
         $form->bind($user);
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
+        $data = $request->getPost();
+   
+
         if ($request->isPost()) {
-            $form->setData($request->getPost());
+            $form->setData($data);
             if ($form->isValid()) {
-                $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user);
+                $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user, $originalPassword);
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was edited');
                     return $this->redirect()->toRoute('cdiuser/list');

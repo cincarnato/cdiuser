@@ -14,12 +14,11 @@ return [
         },
                 CdiUser\Form\EditUserForm::class => \CdiUser\Factory\Form\EditUserFactory::class,
                 CdiUser\Form\CreateUserForm::class => \CdiUser\Factory\Form\CreateUserFactory::class,
+                CdiUser\Form\LostPasswordForm::class => \CdiUser\Factory\Form\LostPasswordFactory::class,
                 'cdiuser_user_service' => \CdiUser\Factory\Service\UserFactory::class,
                 'zfcuser_user_mapper' => \CdiUser\Factory\Mapper\UserMapperFactory::class,
             ],
         ];
-
-
 
 
 

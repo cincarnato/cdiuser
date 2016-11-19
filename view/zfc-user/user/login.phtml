@@ -1,0 +1,94 @@
+<div class="login-block">
+    <div class="block block-transparent">
+
+        <div class="head">
+            <div class="user">
+                <div class="info user-change" style="opacity: 1;">                                                                                
+                    <img src="/img/user.jpg" class="img-circle img-thumbnail">
+
+                </div>                            
+            </div>
+        </div>
+        <?php
+        $form = $this->loginForm;
+        $form->prepare();
+        $form->setAttribute('action', $this->url('zfcuser/login'));
+        $form->setAttribute('method', 'post');
+        ?>
+
+        <?php echo $this->form()->openTag($form) ?>
+
+        <?php $element = $form->get('identity')->setAttribute('placeholder', 'usuario o email') ?>
+
+        <div style="" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
+
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <span class="fa fa-user"></span>
+                </div>
+
+                <?php echo $this->formElement($element); ?>
+
+
+                <?php if ($this->formElementErrors($element)) :
+                    ?>
+                    <?php
+                    echo $this->formElementErrors()
+                            ->setMessageOpenFormat('<p class="help-block">')
+                            ->setMessageSeparatorString('</p><p class="help-block">')
+                            ->setMessageCloseString('</p>')
+                            ->render($element);
+                    ?>
+                <?php endif; ?>
+            </div>
+
+        </div>
+
+        <?php $element = $form->get('credential')->setAttribute('placeholder', 'password') ?>
+
+        <div style="" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
+
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <span class="fa fa-key"></span>
+                </div>
+
+                <?php echo $this->formElement($element); ?>
+
+
+                <?php if ($this->formElementErrors($element)) :
+                    ?>
+                    <?php
+                    echo $this->formElementErrors()
+                            ->setMessageOpenFormat('<p class="help-block">')
+                            ->setMessageSeparatorString('</p><p class="help-block">')
+                            ->setMessageCloseString('</p>')
+                            ->render($element);
+                    ?>
+                <?php endif; ?>
+            </div>
+
+        </div>
+
+
+
+        <?php $element = $form->get('submit')->setAttribute('value', 'Enviar')->setAttribute('class', 'btn btn-default btn-block btn-clean'); ?>
+        <div style="" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
+
+            <?php echo $this->formElement($element); ?>
+
+        </div>
+        <?php echo $this->form()->closeTag(); ?>
+
+        <?php if ($this->enableRegistration) : ?>
+            <div class='text-center'>
+                <?php echo $this->translate('Not registered?'); ?> <a href="<?php echo $this->url('zfcuser/register') . ($this->redirect ? '?redirect=' . $this->redirect : '') ?>"><?php echo $this->translate('Sign up!'); ?></a>
+            </div>
+        <?php endif; ?>
+
+        <div class='text-center'>
+            <a href="<?php echo $this->url('cdiuserlpass'); ?>"><?php echo $this->translate('Recuperar Password'); ?></a>    
+
+        </div>
+    </div>
+</div>

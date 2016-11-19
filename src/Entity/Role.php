@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Rbac\Role\HierarchicalRoleInterface;
 use ZfcRbac\Permission\PermissionInterface;
 use Doctrine\Common\Collections\Criteria;
-
+use Zend\Form\Annotation;
 /**
  * @ORM\Entity
  * @ORM\Table(name="roles")
@@ -20,12 +20,15 @@ class Role implements HierarchicalRoleInterface {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Annotation\Type("Zend\Form\Element\Hidden")
      */
     protected $id;
 
     /**
      * @var string|null
-     *
+      * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Nombre:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":48}})
      * @ORM\Column(type="string", length=48, unique=true)
      */
     protected $name;

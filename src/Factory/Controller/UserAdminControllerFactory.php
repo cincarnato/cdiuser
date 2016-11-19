@@ -15,8 +15,12 @@ class UserAdminControllerFactory implements FactoryInterface {
         $userMapper = $container->get('zfcuser_user_mapper');
         $adminUserService = $container->get('cdiuser_user_service');
         $zfcUserOptions = $container->get('zfcuser_module_options');
-        return new UserAdminController(
-                $createUserForm, $editUserForm, $options, $userMapper, $adminUserService, $zfcUserOptions
+
+        //ADD CDIDATAGRID
+        /* @var $grid \CdiDataGrid\Grid */
+        $grid = $container->build("CdiDatagrid", ["customOptionsKey" => "cdiDataGridUser"]);
+
+        return new UserAdminController($grid,$createUserForm, $editUserForm, $options, $userMapper, $adminUserService, $zfcUserOptions
         );
     }
 

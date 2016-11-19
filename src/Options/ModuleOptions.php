@@ -13,6 +13,20 @@ ModuleOptionsInterface {
     protected $__strictMode__ = false;
 
     /**
+     * Array options mail
+     * 
+     * 
+     */
+    protected $mail = array(
+        "message" => [
+            "from" => "info@perfilit.com",
+        ],
+        "transport" => [
+            "smtp" => "127.0.0.1",
+        ]
+    );
+
+    /**
      * Array of data to show in the user list
      * Key = Label in the list
      * Value = entity property(expecting a 'getProperty())
@@ -108,6 +122,17 @@ ModuleOptionsInterface {
     public function getAutoPasswordLength() {
         return $this->autoPasswordLength;
     }
-    
-   
+
+    function getMail() {
+        return $this->mail;
+    }
+
+    function setMail($mail) {
+        $this->mail = $mail;
+    }
+
+
+
+
+
 }

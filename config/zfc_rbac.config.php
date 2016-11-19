@@ -23,6 +23,7 @@ return [
     'guards' => [
 //Gestion por rutas: ruta (admite wilcard *) => role (admite wilcard *)
         'ZfcRbac\Guard\RouteGuard' => [
+            'cdiuserlpass' => ['guest'],
             'cdiuser*' => ['admin'],
             'zfcuser/login' => ['guest'],
             'zfcuser/register' => ['guest'], // required if registration is enabled

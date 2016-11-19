@@ -25,17 +25,17 @@ class EditUserForm extends Register {
         $this->remove('captcha');
 
         if ($this->getUserEditOptions()->getAllowPasswordChange()) {
-            $this->add(array(
-                'name' => 'reset_password',
-                'type' => 'Zend\Form\Element\Checkbox',
-                'options' => array(
-                    'label' => 'Reset password to random',
-                ),
-            ));
+//            $this->add(array(
+//                'name' => 'reset_password',
+//                'type' => 'Zend\Form\Element\Checkbox',
+//                'options' => array(
+//                    'label' => 'Reset password to random',
+//                ),
+//            ));
 
             $password = $this->get('password');
             $password->setAttribute('required', false);
-            $password->setOptions(array('label' => 'Password (only if want to change)'));
+            $password->setOptions(array('label' => 'Password (Solo si se desea cambiar)'));
 
             $this->remove('passwordVerify');
         } else {
@@ -57,6 +57,24 @@ class EditUserForm extends Register {
             ));
         }
 
+           //STATE
+        $this->add(array(
+            'name' => 'state',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'attributes' => array(
+                'required' => false,
+                'class' => "form-control",
+                
+            ),
+            'options' => array(
+                'label' => 'Activo',
+                'description' => '',
+            )
+        ));
+        
+          
+        //RENAME ESP
+        $this->get('username')->setLabel("Usuario");
 
         $this->get('submit')->setLabel('Save')->setValue('Save');
 

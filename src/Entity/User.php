@@ -7,11 +7,13 @@ use ZfcUser\Entity\UserInterface;
 use ZfcRbac\Identity\IdentityInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Zend\Form\Annotation;
+use Gedmo\Mapping\Annotation as Gedmo;
 /**
  *
  * @ORM\Entity
  * @ORM\Table(name="users")
- *
+ * @ORM\Entity(repositoryClass="CdiUser\Repository\UserRepository")
  * @author Cristian Incarnato <cristian.cdi@gmail.com>
  */
 class User implements UserInterface, IdentityInterface {
@@ -21,74 +23,95 @@ class User implements UserInterface, IdentityInterface {
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Annotation\Type("Zend\Form\Element\Hidden")
      */
     protected $id;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Usuario:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @ORM\Column(type="string", length=100, unique=true, nullable=true)
      */
     protected $username;
 
     /**
      * @var string
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Password:"})
      * @ORM\Column(type="string", length=128)
      */
     protected $password;
 
     /**
      * @var string
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Email:"})
      * @ORM\Column(type="string", unique=true,  length=255)
      */
     protected $email;
-
+    
+    
     /**
      * @var string
+      * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Tel:"})
      * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    protected $tel;
+    
+    /**
+     * @var string
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Nombre a mostrar:"})
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     protected $displayName;
 
     /**
      * @var int
+     * @Annotation\Type("Zend\Form\Element\Checkbox")
+     * @Annotation\Attributes({"type":"checkbox", "checked":"checked"})
+     * @Annotation\Options({"label":"Activo:"})
+     * @Annotation\AllowEmpty({"true"})
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $state;
+    protected $state=true;
 
     /**
-     * 
+      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Options({
+     * "label":"Rol:",
+     * "empty_option": "",
+     * "target_class":"CdiUser\Entity\Role",
+     * "property": "name"})
      * @ORM\ManyToOne(targetEntity="CdiUser\Entity\Role")
      * 
      */
     protected $role;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=50, nullable=true)
+    
+         /**
+     * @var \DateTime createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", name="created_at")
+      * @Annotation\Exclude()
      */
-    protected $tel;
-
+    protected $createdAt;
     /**
      * @var \DateTime updatedAt
      *
-     * @ORM\Column(type="datetime", name="updated_at", nullable=true, name="last_keepalive")
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
+    * @Annotation\Exclude()
      */
-    protected $lastKeepalive;
+    protected $updatedAt;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=15, unique=false, nullable=true, name="last_ip")
-     */
-    protected $lastIp;
-    
-    /**
-     * @var Collection
-     */
-    private $roles;
 
     public function __construct() {
         $this->roles = new ArrayCollection();
     }
-
-   
 
     function getId() {
         return $this->id;
@@ -122,14 +145,6 @@ class User implements UserInterface, IdentityInterface {
         return $this->tel;
     }
 
-    function getLastKeepalive() {
-        return $this->lastKeepalive;
-    }
-
-    function getLastIp() {
-        return $this->lastIp;
-    }
-
     function setId($id) {
         $this->id = $id;
     }
@@ -161,16 +176,30 @@ class User implements UserInterface, IdentityInterface {
     function setTel($tel) {
         $this->tel = $tel;
     }
-
-    function setLastKeepalive(\DateTime $lastKeepalive) {
-        $this->lastKeepalive = $lastKeepalive;
+    
+    function getCreatedAt() {
+        return $this->createdAt;
     }
 
-    function setLastIp($lastIp) {
-        $this->lastIp = $lastIp;
+    function getUpdatedAt() {
+        return $this->updatedAt;
     }
 
+    function setCreatedAt(\DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+    function setUpdatedAt(\DateTime $updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    
     public function __toString() {
+       return $this->toString();
+    }
+    
+    
+     public function toString() {
         if ($this->username != "") {
             return $this->username;
         } else {
@@ -178,7 +207,7 @@ class User implements UserInterface, IdentityInterface {
         }
     }
 
-     /**
+    /**
      * {@inheritDoc}
      */
     public function getRoles() {
@@ -191,7 +220,7 @@ class User implements UserInterface, IdentityInterface {
      */
     public function setRoles(Collection $roles) {
         $this->roles->clear();
-          $this->roles[] = $this->role;
+        $this->roles[] = $this->role;
     }
 
     /**
@@ -201,4 +230,5 @@ class User implements UserInterface, IdentityInterface {
     public function addRole(RoleInterface $role) {
         $this->roles[] = $role;
     }
+
 }

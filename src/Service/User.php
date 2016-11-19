@@ -73,7 +73,7 @@ class User extends EventProvider
      * @param UserInterface $user
      * @return UserInterface
      */
-    public function edit(Form $form, array $data, UserInterface $user)
+    public function edit(Form $form, array $data, UserInterface $user,$originalPassword)
     {
         // first, process all form fields
 //        foreach ($data as $key => $value) {
@@ -89,10 +89,14 @@ class User extends EventProvider
             } elseif (!empty($data['password'])) {
                 $argv['password'] = $data['password'];
             }
+            
+  
             if (!empty($argv['password'])) {
                 $bcrypt = new Bcrypt();
                 $bcrypt->setCost($this->getZfcUserOptions()->getPasswordCost());
                 $user->setPassword($bcrypt->create($argv['password']));
+            }else{
+                $user->setPassword($originalPassword);
             }
         }
 //        // TODO: not sure if this code is required here - all fields that came from the form already saved
