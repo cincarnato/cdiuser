@@ -15,25 +15,25 @@ $config = [
             "enable" => true,
             "add" => [
                 "enable" => true,
-                "class" => "btn btn-primary fa fa-plus",
+                "class" => " fa fa-plus",
                 "value" => " Agregar",
                 "action" => "href='/admin/user/create'"
             ],
             "edit" => [
                 "enable" => true,
-                "class" => "btn btn-primary fa fa-edit",
+                "class" => " fa fa-pencil",
                 "value" => "",
                 "action" => "href='/admin/user/edit/{{id}}'"
             ],
             "del" => [
                 "enable" => true,
-                "class" => "btn btn-danger fa fa-trash",
+                "class" => " fa fa-trash",
                 "value" => "",
                 "action" => "href='/admin/user/remove/{{id}}'"
             ],
             "view" => [
                 "enable" => true,
-                "class" => "btn btn-success fa fa-list",
+                "class" => "fa fa-list",
                 "value" => "",
             ]
         ],
