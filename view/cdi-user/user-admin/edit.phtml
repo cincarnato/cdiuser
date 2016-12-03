@@ -19,7 +19,7 @@ $form->setAttribute('method', 'post');
                 <a href="<?php echo $this->url('cdiuser_admin/list'); ?>">
                     <?php echo $this->translate('Cancelar') ?>
                 </a>
-                <a href="<?php echo $this->url('cdiuser_admin/remove', array('userId' => $this->userId)); ?>"
+                <a class="pull-right" href="<?php echo $this->url('cdiuser_admin/remove', array('userId' => $this->userId)); ?>"
                    onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
                        <?php echo $this->translate('Eliminar') ?>
                 </a>
