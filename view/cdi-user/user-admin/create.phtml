@@ -1,7 +1,7 @@
 <?php
 $form = $this->createUserForm;
 $form->prepare();
-$form->setAttribute('action', $this->url('cdiuser/create'));
+$form->setAttribute('action', $this->url('cdiuser_admin/create'));
 $form->setAttribute('method', 'post');
 $form->setAttribute("role", "form");
 ?>
@@ -15,6 +15,11 @@ $form->setAttribute("role", "form");
             </div>
             <div class="panel-body">
                 <?php include '_form.phtml'; ?>   
+            </div>
+            <div class="panel-footer">
+                <a href="<?php echo $this->url('cdiuser_admin/list'); ?>">
+                       <?php echo $this->translate('Cancelar') ?>
+                </a>
             </div>
 
         </div>

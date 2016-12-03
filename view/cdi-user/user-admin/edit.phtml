@@ -1,7 +1,7 @@
 <?php
 $form = $this->editUserForm;
 $form->prepare();
-$form->setAttribute('action', $this->url('cdiuser/edit', array('userId' => $this->userId)));
+$form->setAttribute('action', $this->url('cdiuser_admin/edit', array('userId' => $this->userId)));
 $form->setAttribute('method', 'post');
 ?>
 
@@ -16,10 +16,14 @@ $form->setAttribute('method', 'post');
                 <?php include '_form.phtml'; ?>   
             </div>
             <div class="panel-footer">
-                <a href="<?php echo $this->url('cdiuser/remove', array('userId' => $this->userId)); ?>"
-                   onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
-                       <?php echo $this->translate('Delete') ?>
+                <a href="<?php echo $this->url('cdiuser_admin/list'); ?>">
+                    <?php echo $this->translate('Cancelar') ?>
                 </a>
+                <a href="<?php echo $this->url('cdiuser_admin/remove', array('userId' => $this->userId)); ?>"
+                   onclick="return confirm('<?php echo $this->translate('Really delete user?') ?>')">
+                       <?php echo $this->translate('Eliminar') ?>
+                </a>
+
             </div>
 
         </div>
