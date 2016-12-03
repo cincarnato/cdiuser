@@ -18,20 +18,23 @@ class Module {
         return include __DIR__ . '/../config/services.config.php';
     }
 
-    public function onBootstrap(EventInterface $e) {
+    public function onBootstrap(EventInterface $mvc_event) {
+
+
+        //ServiceManager,EventManager,SharedEventManager
+        $sm = $mvc_event->getApplication()->getServiceManager();
+        $eventManager = $mvc_event->getApplication()->getEventManager();
+        $sharedEventManager = $eventManager->getSharedManager();
 
         //RBAC-STRATEGY (TO IMPROVE)
-        $t = $e->getTarget();
-        $ListenerAggregate = $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
-        $ListenerAggregate->attach($t->getEventManager());
+//        $t = $mvc_event->getTarget();
+//        $ListenerAggregate = $t->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
+
+        $ListenerAggregate = $sm->get('ZfcRbac\View\Strategy\RedirectStrategy');
+        $ListenerAggregate->attach($eventManager);
 
         //RBAC-NAVIGATION
-        $application = $e->getApplication();
-        $eventManager = $application->getEventManager();
-        $sharedEventManager = $eventManager->getSharedManager();
-        $serviceManager = $application->getServiceManager();
-        $rbacListener = $serviceManager->get('CdiUser\Listener\RbacListener');
-
+        $rbacListener = $sm->get('CdiUser\Listener\RbacListener');
         $sharedEventManager->attach(
                 'Zend\View\Helper\Navigation\AbstractHelper', 'isAllowed', array($rbacListener, 'accept')
         );
@@ -39,14 +42,52 @@ class Module {
 
 
         //Asigno un Rol al usuario que se registra
-        $zfcServiceEvents = $e->getApplication()->getServiceManager()->get('zfcuser_user_service')->getEventManager();
-        $zfcServiceEvents->attach('register', function($e) use($e) {
-            $user = $e->getParam('user');
-            $em = $e->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
-
+        $zfcService = $sm->get('zfcuser_user_service');
+        $zfcServiceEvents = $zfcService->getEventManager();
+        $zfcServiceEvents->attach('register', function($zfc_event) use ($sm) {
+            $user = $zfc_event->getParam('user');
+            $em = $sm->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
             $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
-            $user->setRoles($defaultUserRole);
+            $user->setRole($defaultUserRole);
         });
+
+
+        //USR-LOG: 
+        //Debo generar estos eventos dependiendo de las opciones cdiuser-log = true|false
+         $zfcAuthEvents = $mvc_event->getApplication()->getServiceManager()->get('ZfcUser\Authentication\Adapter\AdapterChain')->getEventManager();
+        $zfcAuthEvents->attach('authenticate.success'
+                , function($e) use($sm) {
+
+            $userId = $e->getTarget()->getIdentity();
+
+            /* @var $em \Doctrine\ORM\EntityManager */
+            $em = $sm->get('doctrine.entitymanager.orm_default');
+            /* @var $em \CdiEntity\Entity\User */
+            $user = $em->getRepository('CdiUser\Entity\User')->find($userId);
+            /* @var $userLog \CdiEntity\Entity\UserLog */
+            $userLog = $em->getRepository('CdiUser\Entity\UserLog')->findByUser($user);
+
+
+            //DATA
+            $remote = new \Zend\Http\PhpEnvironment\RemoteAddress;
+            $ip = $remote->setUseProxy()->getIpAddress();
+            $sesionId = session_id();
+//            $browser =  get_browser();
+//            var_dump($browser);
+//            throw new \Exception("a");
+            $agent = $_SERVER['HTTP_USER_AGENT'];
+            if (!$userLog) {
+                $userLog = new \CdiUser\Entity\UserLog();
+                $userLog->setUser($user);
+                $userLog->setFirstIp($ip);
+            }
+            $userLog->setLastIp($ip);
+            $userLog->setSesionId($sesionId);
+            $userLog->setLoginCount($userLog->getLoginCount() + 1);
+            $userLog->setAgent($agent);
+            $em->getRepository('CdiUser\Entity\UserLog')->save($userLog);
+        }
+        );
     }
 
 }

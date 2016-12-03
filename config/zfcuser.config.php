@@ -11,4 +11,6 @@ return array(
     'auth_identity_fields' => array('email', 'username'),
     'login_after_registration' => true,
     'use_redirect_parameter_if_present' => true,
+    'login_redirect_route' => "cdiuser_log_in",
+    'logout_redirect_route' => "cdiuser_log_out",
 );

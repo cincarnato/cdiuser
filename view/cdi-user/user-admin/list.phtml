@@ -7,9 +7,12 @@
                 <h4 class="panel-title"><?php echo $this->translate('Administración de Usuarios'); ?></h4>     
             </div>
             <div class="panel-body">
-
+                 <div class="pull-right">
+                    <a href="/admin/user/log"><i class="fa fa-eye fa-fw"></i>Log Usuarios</a>
+                </div> 
+                <div class="clearfix"></div>
                 <?php echo $this->CdiGrid($this->grid); ?>
-
+               
             </div>
         </div>
     </div>

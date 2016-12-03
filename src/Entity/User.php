@@ -5,10 +5,9 @@ namespace CdiUser\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ZfcUser\Entity\UserInterface;
 use ZfcRbac\Identity\IdentityInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Zend\Form\Annotation;
 use Gedmo\Mapping\Annotation as Gedmo;
+
 /**
  *
  * @ORM\Entity
@@ -51,16 +50,15 @@ class User implements UserInterface, IdentityInterface {
      * @ORM\Column(type="string", unique=true,  length=255)
      */
     protected $email;
-    
-    
+
     /**
      * @var string
-      * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Tel:"})
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     protected $tel;
-    
+
     /**
      * @var string
      * @Annotation\Type("Zend\Form\Element\Text")
@@ -77,10 +75,10 @@ class User implements UserInterface, IdentityInterface {
      * @Annotation\AllowEmpty({"true"})
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $state=true;
+    protected $state = true;
 
     /**
-      * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
+     * @Annotation\Type("DoctrineModule\Form\Element\ObjectSelect")
      * @Annotation\Options({
      * "label":"Rol:",
      * "empty_option": "",
@@ -90,28 +88,25 @@ class User implements UserInterface, IdentityInterface {
      * 
      */
     protected $role;
-    
-         /**
+
+    /**
      * @var \DateTime createdAt
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", name="created_at")
-      * @Annotation\Exclude()
+     * @Annotation\Exclude()
      */
     protected $createdAt;
+
     /**
      * @var \DateTime updatedAt
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", name="updated_at", nullable=true)
-    * @Annotation\Exclude()
+     * @Annotation\Exclude()
      */
     protected $updatedAt;
 
-
-    public function __construct() {
-        $this->roles = new ArrayCollection();
-    }
 
     function getId() {
         return $this->id;
@@ -176,7 +171,7 @@ class User implements UserInterface, IdentityInterface {
     function setTel($tel) {
         $this->tel = $tel;
     }
-    
+
     function getCreatedAt() {
         return $this->createdAt;
     }
@@ -193,13 +188,11 @@ class User implements UserInterface, IdentityInterface {
         $this->updatedAt = $updatedAt;
     }
 
-    
     public function __toString() {
-       return $this->toString();
+        return $this->toString();
     }
-    
-    
-     public function toString() {
+
+    public function toString() {
         if ($this->username != "") {
             return $this->username;
         } else {
@@ -211,24 +204,13 @@ class User implements UserInterface, IdentityInterface {
      * {@inheritDoc}
      */
     public function getRoles() {
-        return [$this->getRole()->getName()];
+        if ($this->getRole()) {
+            return [$this->getRole()->getName()];
+        } else {
+            return [];
+        }
     }
-
-    /**
-     * Set the list of roles
-     * @param Collection $roles
-     */
-    public function setRoles(Collection $roles) {
-        $this->roles->clear();
-        $this->roles[] = $this->role;
-    }
-
-    /**
-     * Add one role to roles list
-     * @param \Rbac\Role\RoleInterface $role
-     */
-    public function addRole(RoleInterface $role) {
-        $this->roles[] = $role;
-    }
+    
+    
 
 }

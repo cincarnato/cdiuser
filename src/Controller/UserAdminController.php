@@ -3,7 +3,6 @@
 namespace CdiUser\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Paginator;
 use ZfcUser\Mapper\UserInterface;
 use ZfcUser\Options\ModuleOptions as ZfcUserModuleOptions;
 use CdiUser\Options\ModuleOptions;
@@ -55,6 +54,7 @@ class UserAdminController extends AbstractActionController {
 
     public function listAction() {
        // $this->grid->setTemplate("ajax");
+
         $this->grid->prepare();
         
         
@@ -62,7 +62,6 @@ class UserAdminController extends AbstractActionController {
         $this->grid->getFormFilters()->remove("password");
 
         $viewModel = new ViewModel(array('grid' => $this->grid));
-       // $viewModel->setTerminal(true);
         return $viewModel;
     }
 

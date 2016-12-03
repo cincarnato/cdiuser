@@ -72,6 +72,66 @@ $config = [
             ],
         )
     ],
+    "cdiDataGridUserLog" => [
+        "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiUser\Entity\UserLog",
+                "entityManager" => "Doctrine\ORM\EntityManager"
+            ]
+        ],
+        "crudConfig" => [
+            "enable" => true,
+            "add" => [
+                "enable" => false,
+            ],
+            "edit" => [
+                "enable" => false,
+            ],
+            "del" => [
+                "enable" => false,
+            ],
+            "view" => [
+                "enable" => true,
+                "class" => "fa fa-list cursor-pointer",
+                "value" => "",
+            ]
+        ],
+        "columnsConfig" => array(
+            "id" => [
+                "hidden" => true
+            ],
+            "user" => [
+                "type" => "relational",
+                "displayName" => "usuario"
+            ],
+             "agent" => [
+                 "hidden" => true
+            ],
+              "loginCount" => [
+                "displayName" => "sesiones"
+            ],
+                  "firstIp" => [
+                "displayName" => "Primer IP"
+            ],
+                  "lastIp" => [
+                "displayName" => "Ultima IP"
+            ],
+                "sesionId" => [
+                "hidden" => true
+            ],
+            "firstSesion" => [
+                "type" => "date",
+                "displayName" => "Primer Login",
+                "format" => "Y-m-d H:i:s"
+            ],
+            "lastSesion" => [
+                "type" => "date",
+                "displayName" => "Ultimo Login",
+                "format" => "Y-m-d H:i:s"
+            ],
+        )
+    ],
 ];
 
 return $config;

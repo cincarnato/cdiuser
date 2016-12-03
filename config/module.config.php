@@ -40,7 +40,7 @@ $setting = array(
     ),
     'router' => array(
         'routes' => array(
-            'cdiuser' => array(
+            'cdiuser_admin' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/admin/user',
@@ -57,6 +57,16 @@ $setting = array(
                             'defaults' => array(
                                 'controller' => 'cdiuseradmin',
                                 'action' => 'list',
+                            ),
+                        ),
+                    ),
+                     'log' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/log',
+                            'defaults' => array(
+                                'controller' => 'cdiuserlog',
+                                'action' => 'log',
                             ),
                         ),
                     ),
@@ -94,13 +104,33 @@ $setting = array(
                     ),
                 ),
             ),
-            'cdiuserlpass' => array(
+            'cdiuser_lpass' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/user/lpass',
                     'defaults' => array(
                         'controller' => 'cdiuser',
                         'action' => 'lpass',
+                    ),
+                ),
+            ),
+            'cdiuser_log_in' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/user/log/in',
+                    'defaults' => array(
+                        'controller' => 'cdiuser',
+                        'action' => 'login',
+                    ),
+                ),
+            ),
+            'cdiuser_log_out' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/user/log/out',
+                    'defaults' => array(
+                        'controller' => 'cdiuser',
+                        'action' => 'logout',
                     ),
                 ),
             ),

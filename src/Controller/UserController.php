@@ -47,6 +47,19 @@ class UserController extends AbstractActionController {
         $this->zfcUserOptions = $zfcUserOptions;
     }
 
+      public function loginAction() {
+          
+          
+          return "in";
+      }
+      
+      public function logoutAction() {
+          
+          
+           return "out";
+      }
+    
+    
     public function lpassAction() {
 
         //IF POST
@@ -114,8 +127,6 @@ class UserController extends AbstractActionController {
         $body = "Hola " . $user . ", \n\n";
         $body .= "Tu nueva password para el sitio " . $mailOptions["message"]["web"] . " es:\n\n";
         $body .= $newRandomPassword;
-
-
         return $body;
     }
 
