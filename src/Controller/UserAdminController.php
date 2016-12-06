@@ -81,7 +81,7 @@ class UserAdminController extends AbstractActionController {
                 $user = $this->getAdminUserService()->create($form, (array) $request->getPost());
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was created');
-                    return $this->redirect()->toRoute('cdiuser/list');
+                    return $this->redirect()->toRoute('cdiuser_admin/list');
                 }
             }
         }
@@ -108,7 +108,7 @@ class UserAdminController extends AbstractActionController {
                 $user = $this->getAdminUserService()->edit($form, (array) $request->getPost(), $user, $originalPassword);
                 if ($user) {
                     $this->flashMessenger()->addSuccessMessage('The user was edited');
-                    return $this->redirect()->toRoute('cdiuser/list');
+                    return $this->redirect()->toRoute('cdiuser_admin/list');
                 }
             }
         } else {
@@ -133,7 +133,7 @@ class UserAdminController extends AbstractActionController {
                 $this->flashMessenger()->addSuccessMessage('The user was deleted');
             }
         }
-        return $this->redirect()->toRoute('cdiuser/list');
+        return $this->redirect()->toRoute('cdiuser_admin/list');
     }
 
     public function setOptions(ModuleOptions $options) {
