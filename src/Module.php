@@ -46,7 +46,7 @@ class Module {
         $zfcServiceEvents = $zfcService->getEventManager();
         $zfcServiceEvents->attach('register', function($zfc_event) use ($sm) {
             $user = $zfc_event->getParam('user');
-            $em = $sm->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
+            $em = $sm->get('doctrine.entitymanager.orm_default');
             $defaultUserRole = $em->getRepository('CdiUser\Entity\Role')->find(2);
             $user->setRole($defaultUserRole);
         });
