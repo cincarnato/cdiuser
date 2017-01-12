@@ -15,6 +15,7 @@ return [
                 CdiUser\Form\EditUserForm::class => \CdiUser\Factory\Form\EditUserFactory::class,
                 CdiUser\Form\CreateUserForm::class => \CdiUser\Factory\Form\CreateUserFactory::class,
                 CdiUser\Form\LostPasswordForm::class => \CdiUser\Factory\Form\LostPasswordFactory::class,
+                CdiUser\Form\GroupUsers::class => \CdiUser\Factory\Form\GroupUsersFactory::class,
                 'cdiuser_user_service' => \CdiUser\Factory\Service\UserFactory::class,
                 'zfcuser_user_mapper' => \CdiUser\Factory\Mapper\UserMapperFactory::class,
             ],

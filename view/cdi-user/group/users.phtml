@@ -1,0 +1,51 @@
+<div class="">
+
+
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    ?>
+
+    <?php echo $this->form()->openTag($form) ?>
+
+    <?php $element = $form->get('id') ?>
+        <?php echo $this->formElement($element); ?>
+ 
+
+    <?php $element = $form->get('users') ?>
+
+    <div style="" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
+
+        <div class="input-group">
+            <div class="input-group-addon">
+                <span class="fa fa-key"></span>
+            </div>
+
+            <?php echo $this->formElement($element); ?>
+
+
+            <?php if ($this->formElementErrors($element)) :
+                ?>
+                <?php
+                echo $this->formElementErrors()
+                        ->setMessageOpenFormat('<p class="help-block">')
+                        ->setMessageSeparatorString('</p><p class="help-block">')
+                        ->setMessageCloseString('</p>')
+                        ->render($element);
+                ?>
+            <?php endif; ?>
+        </div>
+
+    </div>
+
+
+
+    <?php $element = $form->get('submitbtn'); ?>
+    <div style="" class="form-group <?php if ($this->formElementErrors($element)) echo "has-error" ?>">
+
+        <?php echo $this->formElement($element); ?>
+
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+
+</div>

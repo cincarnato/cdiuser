@@ -42,7 +42,7 @@ $config = [
                 "displayName" => "usuario"
             ],
             "displayName" => [
-                  "displayName" => "nombre"
+                "displayName" => "nombre"
             ],
             "password" => [
                 "hidden" => true
@@ -52,6 +52,9 @@ $config = [
                 "orderProperty" => 'name'
             ],
             "tel" => [
+                "hidden" => true
+            ],
+            "groups" => [
                 "hidden" => true
             ],
             "state" => [
@@ -105,19 +108,19 @@ $config = [
                 "type" => "relational",
                 "displayName" => "usuario"
             ],
-             "agent" => [
-                 "hidden" => true
+            "agent" => [
+                "hidden" => true
             ],
-              "loginCount" => [
+            "loginCount" => [
                 "displayName" => "sesiones"
             ],
-                  "firstIp" => [
+            "firstIp" => [
                 "displayName" => "Primer IP"
             ],
-                  "lastIp" => [
+            "lastIp" => [
                 "displayName" => "Ultima IP"
             ],
-                "sesionId" => [
+            "sesionId" => [
                 "hidden" => true
             ],
             "firstSesion" => [
@@ -128,6 +131,50 @@ $config = [
             "lastSesion" => [
                 "type" => "date",
                 "displayName" => "Ultimo Login",
+                "format" => "Y-m-d H:i:s"
+            ],
+        )
+    ],
+    "cdiDataGridGroup" => [
+        "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiUser\Entity\Group",
+                "entityManager" => "Doctrine\ORM\EntityManager"
+            ]
+        ],
+        "crudConfig" => [
+            "enable" => true,
+            "add" => [
+                "enable" => false,
+            ],
+            "edit" => [
+                "enable" => false,
+            ],
+            "del" => [
+                "enable" => false,
+            ],
+            "view" => [
+                "enable" => true,
+                "class" => "fa fa-list cursor-pointer",
+                "value" => "",
+            ]
+        ],
+        "columnsConfig" => array(
+            "name" => [
+                "displayName" => "nombre"
+            ],
+            "users" => [
+                "hidden" => true,
+            ],
+            "createdAt" => [
+                "type" => "date",
+                "displayName" => "creado",
+                "format" => "Y-m-d H:i:s"
+            ],
+            "updatedAt" => [
+                "type" => "date",
+                "displayName" => "actualizado",
                 "format" => "Y-m-d H:i:s"
             ],
         )

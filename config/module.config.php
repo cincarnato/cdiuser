@@ -60,7 +60,7 @@ $setting = array(
                             ),
                         ),
                     ),
-                     'log' => array(
+                    'log' => array(
                         'type' => 'Literal',
                         'options' => array(
                             'route' => '/log',
@@ -99,6 +99,38 @@ $setting = array(
                                 'controller' => 'cdiuseradmin',
                                 'action' => 'remove',
                                 'userId' => 0
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'cdiuser_admin_groups' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/group',
+                    'defaults' => array(
+                        'controller' => 'cdiuseradmin',
+                        'action' => 'index',
+                    ),
+                ),
+                'child_routes' => array(
+                    'list' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/list',
+                            'defaults' => array(
+                                'controller' => 'cdigroup',
+                                'action' => 'list',
+                            ),
+                        ),
+                    ),
+                     'users' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/users',
+                            'defaults' => array(
+                                'controller' => 'cdigroupusers',
+                                'action' => 'users',
                             ),
                         ),
                     ),

@@ -8,7 +8,8 @@
             </div>
             <div class="panel-body">
                  <div class="pull-right">
-                    <a href="/admin/user/log"><i class="fa fa-eye fa-fw"></i>Log Usuarios</a>
+                     <a href="/admin/group/list"><i class="fa fa-eye fa-fw"></i><?php echo $this->translate('Grupos'); ?></a>
+                    <a href="/admin/user/log"><i class="fa fa-eye fa-fw"></i><?php echo $this->translate('Log Usuarios'); ?></a>
                 </div> 
                 <div class="clearfix"></div>
                 <?php echo $this->CdiGrid($this->grid); ?>

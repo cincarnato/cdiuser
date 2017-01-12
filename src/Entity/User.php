@@ -107,6 +107,28 @@ class User implements UserInterface, IdentityInterface {
      */
     protected $updatedAt;
 
+    /**
+     * Many Groups have Many Users.
+     * @ManyToMany(targetEntity="CdiUser\Entity\Group", mappedBy="users")
+     */
+    private $groups;
+
+    function __construct() {
+        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function addGroup(\CdiUser\Entity\Group $group) {
+        $group->addUser($this); // synchronously updating inverse side
+        $this->groups[] = $group;
+    }
+
+    function getGroups() {
+        return $this->groups;
+    }
+
+    function setGroups($groups) {
+        $this->groups = $groups;
+    }
 
     function getId() {
         return $this->id;
@@ -210,7 +232,5 @@ class User implements UserInterface, IdentityInterface {
             return [];
         }
     }
-    
-    
 
 }
