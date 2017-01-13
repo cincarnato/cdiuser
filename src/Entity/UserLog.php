@@ -54,7 +54,6 @@ class UserLog {
     /**
      * @var \DateTime lastSesion
      *
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime", name="last_sesion", nullable=true)
      * @Annotation\Exclude()
      */

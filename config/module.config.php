@@ -60,12 +60,32 @@ $setting = array(
                             ),
                         ),
                     ),
+                    'teams' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/teams/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuserteams',
+                                'action' => 'teams',
+                            ),
+                        ),
+                    ),
                     'log' => array(
                         'type' => 'Literal',
                         'options' => array(
                             'route' => '/log',
                             'defaults' => array(
                                 'controller' => 'cdiuserlog',
+                                'action' => 'log',
+                            ),
+                        ),
+                    ),
+                    'logdetail' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/log-detail',
+                            'defaults' => array(
+                                'controller' => 'cdiuserlogdetail',
                                 'action' => 'log',
                             ),
                         ),
@@ -104,10 +124,10 @@ $setting = array(
                     ),
                 ),
             ),
-            'cdiuser_admin_groups' => array(
+            'cdiuser_admin_teams' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route' => '/admin/group',
+                    'route' => '/admin/team',
                     'defaults' => array(
                         'controller' => 'cdiuseradmin',
                         'action' => 'index',
@@ -119,17 +139,17 @@ $setting = array(
                         'options' => array(
                             'route' => '/list',
                             'defaults' => array(
-                                'controller' => 'cdigroup',
+                                'controller' => 'cditeam',
                                 'action' => 'list',
                             ),
                         ),
                     ),
-                     'users' => array(
-                        'type' => 'Literal',
+                    'users' => array(
+                        'type' => 'Segment',
                         'options' => array(
-                            'route' => '/users',
+                            'route' => '/users/:teamId',
                             'defaults' => array(
-                                'controller' => 'cdigroupusers',
+                                'controller' => 'cditeamusers',
                                 'action' => 'users',
                             ),
                         ),
@@ -167,6 +187,13 @@ $setting = array(
                 ),
             ),
         ),
+    ),
+    'view_helper_config' => array(
+        'flashmessenger' => array(
+            'message_open_format' => '<div%s><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><ul><li>',
+            'message_close_string' => '</li></ul></div>',
+            'message_separator_string' => '</li><li>'
+        )
     ),
     'navigation' => array(
         'admin' => array(

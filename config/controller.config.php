@@ -4,9 +4,11 @@ return array(
     'factories' => array(
         'cdiuseradmin' => \CdiUser\Factory\Controller\UserAdminControllerFactory::class,
         'cdiuserlog' => \CdiUser\Factory\Controller\UserLogControllerFactory::class,
+        'cdiuserlogdetail' => \CdiUser\Factory\Controller\UserLogDetailControllerFactory::class,
         'cdiuser' => \CdiUser\Factory\Controller\UserControllerFactory::class,
-        'cdigroup' => \CdiUser\Factory\Controller\GroupControllerFactory::class,
-        'cdigroupusers' => \CdiUser\Factory\Controller\GroupUsersControllerFactory::class,
+        'cditeam' => \CdiUser\Factory\Controller\TeamControllerFactory::class,
+        'cditeamusers' => \CdiUser\Factory\Controller\TeamUsersControllerFactory::class,
+        'cdiuserteams' => \CdiUser\Factory\Controller\UserTeamsControllerFactory::class,
     )
 );
 

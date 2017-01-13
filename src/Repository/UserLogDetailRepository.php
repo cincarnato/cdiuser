@@ -4,22 +4,22 @@ namespace CdiUser\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class UserRepository extends EntityRepository {
+class UserLogDetailRepository extends EntityRepository {
 
-    public function findByEmail($email) {
+    public function findByUser($user) {
         return $this->getEntityManager()
-                        ->createQueryBuilder()->select('u')->from('CdiUser\Entity\User', 'u')
-                        ->where('u.email = :email')
-                        ->setParameter("email", $email)
+                        ->createQueryBuilder()->select('u')->from('CdiUser\Entity\UserLogDetail', 'u')
+                        ->where('u.user = :user')
+                        ->setParameter("user", $user)
                         ->getQuery()
                         ->getOneOrNullResult();
     }
+
     
-    
-       /**
+     /**
      * @save
      */
-    public function save(\CdiUser\Entity\User $entity)
+    public function save(\CdiUser\Entity\UserLogDetail $entity)
     {
         $this->getEntityManager()->persist($entity); $this->getEntityManager()->flush();
     }
@@ -27,9 +27,8 @@ class UserRepository extends EntityRepository {
     /**
      * @remove
      */
-    public function remove(\CdiUser\Entity\User $entity)
+    public function remove(\CdiUser\Entity\UserLogDetail $entity)
     {
         $this->getEntityManager()->remove($entity); $this->getEntityManager()->flush();
     }
-
 }

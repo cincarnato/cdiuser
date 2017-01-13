@@ -54,8 +54,9 @@ $config = [
             "tel" => [
                 "hidden" => true
             ],
-            "groups" => [
-                "hidden" => true
+            "teams" => [
+                "hidden" => true,
+                "type" => "relational"
             ],
             "state" => [
                 "type" => "boolean",
@@ -135,11 +136,11 @@ $config = [
             ],
         )
     ],
-    "cdiDataGridGroup" => [
+    "cdiDataGridUserLogDetail" => [
         "sourceConfig" => [
             "type" => "doctrine",
             "doctrineOptions" => [
-                "entityName" => "\CdiUser\Entity\Group",
+                "entityName" => "\CdiUser\Entity\UserLogDetail",
                 "entityManager" => "Doctrine\ORM\EntityManager"
             ]
         ],
@@ -161,11 +162,43 @@ $config = [
             ]
         ],
         "columnsConfig" => array(
+            "id" => [
+                "hidden" => true
+            ],
+            "user" => [
+                "type" => "relational",
+                "displayName" => "usuario"
+            ],
+            "agent" => [
+                "hidden" => true
+            ],
+            "sesionId" => [
+                "hidden" => true
+            ],
+            "dateSesion" => [
+                "type" => "date",
+                "displayName" => "Fecha",
+                "format" => "Y-m-d H:i:s"
+            ],
+            
+        )
+    ],
+    "cdiDataGridTeam" => [
+        "sourceConfig" => [
+            "type" => "doctrine",
+            "doctrineOptions" => [
+                "entityName" => "\CdiUser\Entity\Team",
+                "entityManager" => "Doctrine\ORM\EntityManager"
+            ]
+        ],
+ 
+        "columnsConfig" => array(
             "name" => [
                 "displayName" => "nombre"
             ],
             "users" => [
                 "hidden" => true,
+                "type" => "relational"
             ],
             "createdAt" => [
                 "type" => "date",

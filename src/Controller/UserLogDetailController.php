@@ -6,7 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use CdiUser\Options\ModuleOptions;
 use Zend\View\Model\ViewModel;
 
-class UserLogController extends AbstractActionController {
+class UserLogDetailController extends AbstractActionController {
 
     /** @var array */
     protected $options;

@@ -4,14 +4,14 @@
 
         <div class="panel panel panel-primary">
             <div class="panel-heading">
-                <h4 class="panel-title"><?php echo $this->translate('Administración de Usuarios'); ?></h4>     
+                <h4 class="panel-title"><?php echo $this->translate('Grupos'); ?></h4>     
             </div>
-            <div class="panel-body ">
-                <?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger' ,'alert-dismissible')); ?>
+            <div class="panel-body">
+        <?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger' ,'alert-dismissible')); ?>
                  <?php echo $this->flashMessenger()->render('success', array('alert', 'alert-success' ,'alert-dismissible')); ?>
                 <div class="clearfix"></div>
                 <?php echo $this->CdiGrid($this->grid); ?>
-               
+
             </div>
         </div>
     </div>

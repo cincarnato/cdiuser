@@ -54,11 +54,14 @@ class UserAdminController extends AbstractActionController {
 
     public function listAction() {
        // $this->grid->setTemplate("ajax");
-
+          
+          $this->grid->addExtraColumn("Grupos", "<a class='btn btn-primary btn-xs fa fa-users' href='/admin/user/teams/{{id}}' ></a>", "right", false);
+      
         $this->grid->prepare();
         
         
         //WAre
+        $this->grid->setTableClass("table-condensed text-center");
         $this->grid->getFormFilters()->remove("password");
 
         $viewModel = new ViewModel(array('grid' => $this->grid));

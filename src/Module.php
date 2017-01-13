@@ -54,7 +54,7 @@ class Module {
 
         //USR-LOG: 
         //Debo generar estos eventos dependiendo de las opciones cdiuser-log = true|false
-         $zfcAuthEvents = $mvc_event->getApplication()->getServiceManager()->get('ZfcUser\Authentication\Adapter\AdapterChain')->getEventManager();
+        $zfcAuthEvents = $mvc_event->getApplication()->getServiceManager()->get('ZfcUser\Authentication\Adapter\AdapterChain')->getEventManager();
         $zfcAuthEvents->attach('authenticate.success'
                 , function($e) use($sm) {
 
@@ -72,20 +72,28 @@ class Module {
             $remote = new \Zend\Http\PhpEnvironment\RemoteAddress;
             $ip = $remote->setUseProxy()->getIpAddress();
             $sesionId = session_id();
-//            $browser =  get_browser();
-//            var_dump($browser);
-//            throw new \Exception("a");
             $agent = $_SERVER['HTTP_USER_AGENT'];
+            $now = new \DateTime("now");
             if (!$userLog) {
                 $userLog = new \CdiUser\Entity\UserLog();
                 $userLog->setUser($user);
                 $userLog->setFirstIp($ip);
             }
+            $userLog->setLastSesion($now);
             $userLog->setLastIp($ip);
             $userLog->setSesionId($sesionId);
             $userLog->setLoginCount($userLog->getLoginCount() + 1);
             $userLog->setAgent($agent);
             $em->getRepository('CdiUser\Entity\UserLog')->save($userLog);
+
+            //LOG DETAIL
+            $userLogDetail = new \CdiUser\Entity\UserLogDetail();
+            $userLogDetail->setUser($user);
+            $userLogDetail->setIp($ip);
+            $userLogDetail->setDateSesion($now);
+            $userLogDetail->setAgent($agent);
+            $userLogDetail->setSesionId($sesionId);
+            $em->getRepository('CdiUser\Entity\UserLogDetail')->save($userLogDetail);
         }
         );
     }

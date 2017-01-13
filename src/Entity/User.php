@@ -108,26 +108,49 @@ class User implements UserInterface, IdentityInterface {
     protected $updatedAt;
 
     /**
-     * Many Groups have Many Users.
-     * @ManyToMany(targetEntity="CdiUser\Entity\Group", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="CdiUser\Entity\Team", inversedBy="users")
      */
-    private $groups;
+    private $teams;
 
     function __construct() {
-        $this->groups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function addGroup(\CdiUser\Entity\Group $group) {
-        $group->addUser($this); // synchronously updating inverse side
-        $this->groups[] = $group;
+    public function addTeams(\Doctrine\Common\Collections\ArrayCollection $teams) {
+        foreach ($teams as $team) {
+            $this->addTeam($team);
+        }
     }
 
-    function getGroups() {
-        return $this->groups;
+    public function removeTeams(\Doctrine\Common\Collections\ArrayCollection $teams) {
+        foreach ($teams as $team) {
+            $this->removeTeam($team);
+        }
     }
 
-    function setGroups($groups) {
-        $this->groups = $groups;
+    public function addTeam(\CdiUser\Entity\Team $team) {
+        if ($this->teams->contains($team)) {
+            return;
+        }
+
+        $this->teams[] = $team;
+        $team->addUser($this); // synchronously updating inverse side
+    }
+
+    public function removeTeam(\CdiUser\Entity\Team $team) {
+        if (!$this->teams->contains($team)) {
+            return;
+        }
+        $this->teams->removeElement($team);
+        $team->removeUser($this);
+    }
+
+    function getTeams() {
+        return $this->teams;
+    }
+
+    function setTeams($teams) {
+        $this->teams = $teams;
     }
 
     function getId() {
