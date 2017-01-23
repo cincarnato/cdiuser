@@ -10,6 +10,8 @@ $setting = array(
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'allow_password_change' => true,
         'create_user_auto_password' => false,
+        'edit_form_elements' => ["displayName" => "displayName"],
+        'create_form_elements' => ["displayName" => "displayName"],
         "mail" => [
             "message" => [
                 "fromMail" => "info@perfilit.com.ar",

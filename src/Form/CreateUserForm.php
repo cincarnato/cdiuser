@@ -19,8 +19,8 @@ class CreateUserForm extends Register {
 
         foreach ($this->getCreateOptions()->getCreateFormElements() as $name => $element) {
             // avoid adding fields twice (e.g. email)
-            if ($this->get($element))
-                continue;
+//            if ($this->get($element))
+//                continue;
             $this->add(array(
                 'name' => $element,
                 'options' => array(
