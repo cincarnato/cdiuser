@@ -47,19 +47,49 @@ class UserController extends AbstractActionController {
         $this->zfcUserOptions = $zfcUserOptions;
     }
 
-      public function loginAction() {
-          
-          
-          return "in";
-      }
+    public function loginAction() {
+
+
+        return "in";
+    }
+
+    public function logoutAction() {
+
+
+        return "out";
+    }
+
+    public function pictureAction() {
       
-      public function logoutAction() {
-          
-          
-           return "out";
-      }
-    
-    
+        $form = new \CdiUser\Form\UserPictureForm();
+
+        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
+
+        $user = $this->zfcUserAuthentication()->getIdentity();
+        $userPicture = $this->getEm()->getRepository('CdiUser\Entity\UserPicture')->findOneBy(array("user" => $user));
+
+        if (!$userPicture) {
+            $userPicture = new \CdiUser\Entity\UserPicture();
+            $userPicture->setUser($user);
+        }
+        $form->bind($userPicture);
+        if ($this->getRequest()->isPost()) {
+            $form->setInputFilter($form->inputFilter());
+            $data = array_merge_recursive(
+                    $this->getRequest()->getPost()->toArray(), $this->getRequest()->getFiles()->toArray()
+            );
+
+            $form->setData($data);
+
+            if ($form->isValid()) {
+ 
+                $this->getEm()->getRepository('CdiUser\Entity\UserPicture')->save($userPicture);
+            }
+        }
+
+        return array("form" => $form, "userPicture" => $userPicture);
+    }
+
     public function lpassAction() {
 
         //IF POST
@@ -117,7 +147,7 @@ class UserController extends AbstractActionController {
         $mail->setFrom($mailOptions["message"]["fromMail"], $mailOptions["message"]["fromName"]);
         $mail->addTo($user->getEmail(), $user->toString());
         $mail->setSubject('Recuperación de Password');
-        
+
         //TO IMPROVE
         $transport = new Mail\Transport\Sendmail();
         $transport->send($mail);

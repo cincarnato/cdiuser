@@ -1,0 +1,53 @@
+<div class="login-block">
+    <div class="block block-transparent"> 
+            <div class="head">
+            <div class="user">
+                <div class="info user-change" style="opacity: 1;">                                                                                
+                    <img src="<?php echo $this->userPicture->getPicture();?>" class="img-circle img-thumbnail">
+
+                </div>                            
+            </div>
+        </div>
+        
+   
+        <?php
+        $form = $this->form;
+        $form->prepare();
+        ?>
+        <?php echo $this->form()->openTag($form); ?>
+        <?php $element = $form->get("picture"); ?>
+
+        <div  class="form-group<?php if ($this->formElementErrors($element)) echo " has-error" ?>">
+            <div class="col-lg-12">
+                <label class="control-label"><?php echo ucfirst($this->translate($element->getLabel())); ?></label>
+            </div>
+
+            <div class="col-lg-12">
+          
+                    <?php echo $this->formElement($element); ?>
+             
+                <?php if ($element->getOption('description')): ?>
+                    <p class="help-block"><?php echo $element->getOption('description') ?></p>
+                <?php endif; ?>
+
+                <?php if ($this->formElementErrors($element)) : ?>
+                    <?php
+                    // Imprimo los errores
+                    echo $this->formElementErrors()
+                            ->setMessageOpenFormat('<span class="help-block">')
+                            ->setMessageSeparatorString('</span><span class="help-block">')
+                            ->setMessageCloseString('</span>')
+                            ->render($element);
+                    ?>
+
+                <?php endif; ?>
+
+            </div>
+        </div>
+
+        <?php $element = $form->get("submitbtn"); ?>
+        <?php echo $this->formElement($element); ?>
+        <?php echo $this->form()->closeTag($form); ?>
+
+    </div>
+</div>

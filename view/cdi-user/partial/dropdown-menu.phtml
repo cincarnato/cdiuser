@@ -1,40 +1,42 @@
-<?php if(!$this->zfcUserIdentity()): ?>
-                <li class="dropdown pull-right ">
-                    <a class="dropdown-toggle whitoutIcon" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu ">
- 
-                        <li><a href="/user/login"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Iniciar Sesión'); ?></a>
-                        </li>
-                    </ul>
-                </li>
+<?php if (!$this->zfcUserIdentity()): ?>
+    <li class="dropdown pull-right ">
+        <a class="dropdown-toggle whitoutIcon" data-toggle="dropdown" href="#">
+            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu ">
+
+            <li><a href="/user/login"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Iniciar Sesión'); ?></a>
+            </li>
+        </ul>
+    </li>
 <?php else: ?>
     <?php //echo $this->zfcUserIdentity()->getEmail(); ?>
-                <li class="dropdown pull-right">
-                    <a class="dropdown-toggle whitoutIcon" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <?php if($this->isGranted('admin')): ?>
-                        <li><a href="/admin/user/list"><i class="fa fa-user fa-fw"></i> <?php echo $this->translate('Usuarios'); ?></a>
-                        </li>
-                              <li class="divider"></li>
-                          <li><a href="/admin/team/list"><i class="fa fa-users fa-fw"></i> <?php echo $this->translate('Grupos'); ?></a>
-                        </li>
-                              <li class="divider"></li>
-                         <li><a href="/admin/user/log"><i class="fa fa-eye fa-fw"></i> <?php echo $this->translate('Sesión Log'); ?></a>
-                        </li>
-                              <li class="divider"></li>
-                         <li><a href="/admin/user/log-detail"><i class="fa fa-binoculars fa-fw"></i> <?php echo $this->translate('Sesión Log +'); ?></a>
-                        </li>
-                              <li class="divider"></li>
-                        <?php endif; ?>
-                        <li><a href="/user/change-password"><i class="fa fa-lock fa-fw"></i> Cambiar Password</a>
-                        </li>   
-                        <li class="divider"></li>
-                        <li><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Cerrar Sesión'); ?></a>
-                        </li>
-                    </ul>
+    <li class="dropdown pull-right">
+        <a class="dropdown-toggle whitoutIcon" data-toggle="dropdown" href="#">
+            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+            <?php if ($this->isGranted('admin')): ?>
+                <li><a href="/admin/user/list"><i class="fa fa-user fa-fw"></i> <?php echo $this->translate('Usuarios'); ?></a>
                 </li>
+                <li class="divider"></li>
+                <li><a href="/admin/team/list"><i class="fa fa-users fa-fw"></i> <?php echo $this->translate('Grupos'); ?></a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="/admin/user/log"><i class="fa fa-eye fa-fw"></i> <?php echo $this->translate('Sesión Log'); ?></a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="/admin/user/log-detail"><i class="fa fa-binoculars fa-fw"></i> <?php echo $this->translate('Sesión Log +'); ?></a>
+                </li>
+                <li class="divider"></li>
+            <?php endif; ?>
+            <li><a href="/user/change-password"><i class="fa fa-lock fa-fw"></i> <?php echo $this->translate('Cambiar Password'); ?></a>
+            </li>   
+            <li><a href="/user/picture"><i class="fa fa-picture-o fa-fw"></i> <?php echo $this->translate('Imagen de Perfil'); ?></a>
+            </li>  
+            <li class="divider"></li>
+            <li><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Cerrar Sesión'); ?></a>
+            </li>
+        </ul>
+    </li>
 <?php endif?>

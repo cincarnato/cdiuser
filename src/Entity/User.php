@@ -111,11 +111,26 @@ class User implements UserInterface, IdentityInterface {
      * @ORM\ManyToMany(targetEntity="CdiUser\Entity\Team", inversedBy="users")
      */
     private $teams;
+    
+     /**
+
+     * @ORM\OneToOne(targetEntity="CdiUser\Entity\UserPicture", mappedBy="user")
+     */
+    private $picture;
 
     function __construct() {
         $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    function getPicture() {
+        return $this->picture;
+    }
 
+    function setPicture($picture) {
+        $this->picture = $picture;
+    }
+
+    
     public function addTeams(\Doctrine\Common\Collections\ArrayCollection $teams) {
         foreach ($teams as $team) {
             $this->addTeam($team);

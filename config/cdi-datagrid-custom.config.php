@@ -67,12 +67,14 @@ $config = [
             "createdAt" => [
                 "type" => "date",
                 "displayName" => "creado",
-                "format" => "Y-m-d H:i:s"
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true,
             ],
             "updatedAt" => [
                 "type" => "date",
                 "displayName" => "actualizado",
-                "format" => "Y-m-d H:i:s"
+                "format" => "Y-m-d H:i:s",
+                 "hidden" => true,
             ],
         )
     ],

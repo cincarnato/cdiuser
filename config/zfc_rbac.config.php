@@ -24,7 +24,8 @@ return [
         'ZfcRbac\Guard\RouteGuard' => [
             'cdiuser_lpass' => ['guest'],
             'cdiuser_log_in' => ['user'],
-             'cdiuser_log_out' => ['guest'],
+            'cdiuser_log_out' => ['guest'],
+            'cdiuser_picture' => ['user'],
             'cdiuser_admin*' => ['admin'],
             'zfcuser/login' => ['guest'],
             'zfcuser/register' => ['guest'], // required if registration is enabled
