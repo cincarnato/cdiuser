@@ -147,7 +147,6 @@ class User implements UserInterface, IdentityInterface {
         if ($this->teams->contains($team)) {
             return;
         }
-
         $this->teams[] = $team;
         $team->addUser($this); // synchronously updating inverse side
     }

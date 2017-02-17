@@ -13,19 +13,38 @@ ModuleOptionsInterface {
     protected $__strictMode__ = false;
 
     /**
-     * Array options mail
-     * 
-     * 
+     *
+     * @var array()
      */
-    protected $mail = array(
-        "message" => [
-            "from" => "info@perfilit.com",
-        ],
-        "transport" => [
-            "smtp" => "127.0.0.1",
-        ]
-    );
+    private $transportOptions;
 
+    /**
+     * @var string
+     */
+    private $transport;
+
+    /**
+     * @var string
+     */
+    private $mailFrom;
+    
+    
+        /**
+     * @var string
+     */
+    private $mailFromName;
+    
+    /**
+     * @var string
+     */
+    private $mailTemplatePasswordRecovery = 'cdi-user/mail/password-recovery';
+    
+     /**
+     * @var string
+     */
+    private $mailTemplatePasswordSend = 'cdi-user/mail/password-send';
+    
+    
     /**
      * Array of data to show in the user list
      * Key = Label in the list
@@ -123,16 +142,56 @@ ModuleOptionsInterface {
         return $this->autoPasswordLength;
     }
 
-    function getMail() {
-        return $this->mail;
+    function getTransportOptions() {
+        return $this->transportOptions;
     }
 
-    function setMail($mail) {
-        $this->mail = $mail;
+    function getTransport() {
+        return $this->transport;
+    }
+
+    function setTransportOptions($transportOptions) {
+        $this->transportOptions = $transportOptions;
+    }
+
+    function setTransport($transport) {
+        $this->transport = $transport;
+    }
+
+    function getMailFrom() {
+        return $this->mailFrom;
+    }
+
+    function setMailFrom($mailFrom) {
+        $this->mailFrom = $mailFrom;
+    }
+
+    function getMailTemplatePasswordRecovery() {
+        return $this->mailTemplatePasswordRecovery;
+    }
+
+    function getMailTemplatePasswordSend() {
+        return $this->mailTemplatePasswordSend;
+    }
+
+    function setMailTemplatePasswordRecovery($mailTemplatePasswordRecovery) {
+        $this->mailTemplatePasswordRecovery = $mailTemplatePasswordRecovery;
+    }
+
+    function setMailTemplatePasswordSend($mailTemplatePasswordSend) {
+        $this->mailTemplatePasswordSend = $mailTemplatePasswordSend;
+    }
+    
+    function getMailFromName() {
+        return $this->mailFromName;
+    }
+
+    function setMailFromName($mailFromName) {
+        $this->mailFromName = $mailFromName;
     }
 
 
 
 
-
+    
 }

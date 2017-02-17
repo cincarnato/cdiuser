@@ -8,7 +8,7 @@ use Zend\Crypt\Password\Bcrypt;
 
 class UserController extends AbstractActionController {
 
-    /** @var array */
+    /** @var \CdiUser\Options\ModuleOptions */
     protected $options;
 
     /** @var array */
@@ -40,6 +40,15 @@ class UserController extends AbstractActionController {
         $this->lpForm = $lpForm;
     }
 
+    function getOptions() {
+        return $this->options;
+    }
+
+    function setOptions(\CdiUser\Options\ModuleOptions $options) {
+        $this->options = $options;
+    }
+
+        
     function __construct(\Doctrine\ORM\EntityManager $em, \CdiUser\Form\LostPasswordForm $lpForm, $options, $zfcUserOptions) {
         $this->em = $em;
         $this->lpForm = $lpForm;
@@ -141,16 +150,13 @@ class UserController extends AbstractActionController {
     }
 
     protected function email($user, $newRandomPassword) {
-        $mailOptions = $this->options->getMail();
-        $mail = new Mail\Message();
-        $mail->setBody($this->body($user, $mailOptions, $newRandomPassword));
-        $mail->setFrom($mailOptions["message"]["fromMail"], $mailOptions["message"]["fromName"]);
-        $mail->addTo($user->getEmail(), $user->toString());
-        $mail->setSubject('Recuperación de Password');
+        $this->CdiUserMail();
+        $this->CdiUserMail()->setTemplate($this->options->getMailTemplatePasswordRecovery(),["user"=> $user,"newPassword" =>$newRandomPassword]);
+        $this->CdiUserMail()->setFrom($this->options->getMailFrom(),$this->options->getMailFromName());
+        $this->CdiUserMail()->addTo($user->getEmail(), $user->toString());
+        $this->CdiUserMail()->setSubject('Recuperación de Password');
 
-        //TO IMPROVE
-        $transport = new Mail\Transport\Sendmail();
-        $transport->send($mail);
+        $this->CdiUserMail()->send();
     }
 
     protected function body($user, $mailOptions, $newRandomPassword) {

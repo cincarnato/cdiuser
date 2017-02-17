@@ -10,15 +10,13 @@ $setting = array(
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'allow_password_change' => true,
         'create_user_auto_password' => false,
-        "mail" => [
-            "message" => [
-                "fromMail" => "info@perfilit.com.ar",
-                "fromName" => "LP"
-            ],
-            "transport" => [
-                "smtp" => "127.0.0.1",
+        'mail_from' => 'ci.sys.virtual@gmail.com',
+         'mail_from_name' => 'SYS',
+        'mail_template_password_recovery' => 'cdi-user/mail/password-recovery',
+        'mail_template_password_send' => 'cdi-user/mail/password-send',
+        'transport' => 'Zend\Mail\Transport\SendMail',
+        'transport_options' => [
             ]
-        ]
     ),
     'doctrine' => array(
         'driver' => array(
@@ -205,6 +203,14 @@ $setting = array(
             'message_separator_string' => '</li><li>'
         )
     ),
+     'controller_plugins' => [
+        'factories' => [
+            \CdiUser\Controller\Plugin\CdiUserMail::class => \CdiUser\Factory\Controller\Plugin\CdiUserMailFactory::class,
+        ],
+        'aliases' => [
+            'CdiUserMail' => \CdiUser\Controller\Plugin\CdiUserMail::class,
+        ]
+    ],
     'navigation' => array(
         'admin' => array(
             'cdiuser' => array(

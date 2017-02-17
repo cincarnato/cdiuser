@@ -11,16 +11,21 @@ return array(
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'allow_password_change' => true,
         'create_user_auto_password' => false,
-        "mail" => [
-            "message" => [
-                "web" => "",
-                "fromMail" => "info@perfilit.com.ar",
-                "fromName" => "LP"
+        'mail_from' => 'ci.sys.virtual@gmail.com',
+        'mail_from_name' => 'SYS',
+        'mail_template_password_recovery' => 'cdi-user/mail/password-recovery',
+        'mail_template_password_send' => 'cdi-user/mail/password-send',
+        'transport' => 'Zend\Mail\Transport\Smtp',
+        'transport_options' => [
+            'name' => 'gmail',
+            'host' => 'smtp.gmail.com',
+            'port' => 465,
+            'connection_class' => 'login',
+            'connection_config' => [
+                'username' => 'ci.sys.virtual@gmail.com',
+                'password' => 'xxx',
+                'ssl' => 'ssl',
             ],
-            "transport" => [
-                "type" => "sendmail",
-                "smtp" => "127.0.0.1",
-            ]
         ]
     ),
     'zfcuser' => array(
