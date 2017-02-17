@@ -14,7 +14,7 @@ $setting = array(
          'mail_from_name' => 'SYS',
         'mail_template_password_recovery' => 'cdi-user/mail/password-recovery',
         'mail_template_password_send' => 'cdi-user/mail/password-send',
-        'transport' => 'Zend\Mail\Transport\SendMail',
+        'transport' => '\Zend\Mail\Transport\Sendmail',
         'transport_options' => [
             ]
     ),

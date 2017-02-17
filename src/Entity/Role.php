@@ -1,15 +1,13 @@
 <?php
 
-namespace ZfMetal\Security\Entity;
+namespace CdiUser\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Rbac\Role\HierarchicalRoleInterface;
 use ZfcRbac\Permission\PermissionInterface;
 use Doctrine\Common\Collections\Criteria;
-use Zend\Form\Annotation
-
-
+use Zend\Form\Annotation;
 /**
  * @ORM\Entity
  * @ORM\Table(name="roles")

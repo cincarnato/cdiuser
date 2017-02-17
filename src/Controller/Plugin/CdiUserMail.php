@@ -12,7 +12,7 @@ class CdiUserMail extends AbstractPlugin {
     
     function __invoke()
     {
-        return $this->getMail();
+        return $this->mail;
     }
    
     function __construct(\CdiUser\Mail\MailManager $mail) {

@@ -7,11 +7,11 @@ namespace CdiUser\Mail;
  *
  * @author afurgeri
  */
-class MailManager implements LoggerAwareInterface {
+class MailManager {
 
     /**
      *
-     * @var \Zend\Mail\Transport\Smtp
+     * @var \Zend\Mail\Transport\TransportInterface
      */
     private $transport;
 
@@ -31,7 +31,7 @@ class MailManager implements LoggerAwareInterface {
         return $this->message;
     }
 
-    function __construct(\Zend\Mail\Transport\Smtp $transport, \Zend\View\Renderer\PhpRenderer $viewRender) {
+    function __construct(\Zend\Mail\Transport\TransportInterface $transport, \Zend\View\Renderer\PhpRenderer $viewRender) {
         $this->transport = $transport;
         $this->message = new \Zend\Mail\Message();
         $this->viewRender = $viewRender;
@@ -50,12 +50,7 @@ class MailManager implements LoggerAwareInterface {
             throw new Exception("Body No Set");
         }
 
-        try {
-            $this->getTransport()->send($this->getMessage());
-            return true;
-        } catch (\Exception $exc) {
-            return false;
-        }
+        $this->getTransport()->send($this->getMessage());
     }
 
     public function setBody($body) {

@@ -17,7 +17,7 @@ return [
                 \CdiUser\Form\LostPasswordForm::class => \CdiUser\Factory\Form\LostPasswordFactory::class,
                 \CdiUser\Form\TeamUsers::class => \CdiUser\Factory\Form\TeamUsersFactory::class,
                 \CdiUser\Form\UserTeams::class => \CdiUser\Factory\Form\UserTeamsFactory::class,
-                \CdiUser\Mail\MailManager::class => \CdiUser\Mail\Factory\MailManagerFactory::class,
+                \CdiUser\Mail\MailManager::class => \CdiUser\Factory\Mail\MailManagerFactory::class,
                 'cdiuser_user_service' => \CdiUser\Factory\Service\UserFactory::class,
                 'zfcuser_user_mapper' => \CdiUser\Factory\Mapper\UserMapperFactory::class,
             ],
