@@ -111,17 +111,35 @@ class User implements UserInterface, IdentityInterface {
      * @ORM\ManyToMany(targetEntity="CdiUser\Entity\Team", inversedBy="users")
      */
     private $teams;
-    
-     /**
+
+    /**
 
      * @ORM\OneToOne(targetEntity="CdiUser\Entity\UserPicture", mappedBy="user")
      */
     private $picture;
 
+    /**
+     * @var int
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Envio Acceso:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @ORM\Column(type="integer", length=5, unique=false, nullable=true,, name="envio_acceso")
+     */
+    protected $envioAcceso;
+    
+    /**
+     * @var int
+     * @Annotation\Type("Zend\Form\Element\Text")
+     * @Annotation\Options({"label":"Recuperar Password:"})
+     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
+     * @ORM\Column(type="integer", length=5, unique=false, nullable=true,, name="recuperar_password")
+     */
+    protected $recuperarPassword;
+
     function __construct() {
         $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     function getPicture() {
         return $this->picture;
     }
@@ -130,7 +148,6 @@ class User implements UserInterface, IdentityInterface {
         $this->picture = $picture;
     }
 
-    
     public function addTeams(\Doctrine\Common\Collections\ArrayCollection $teams) {
         foreach ($teams as $team) {
             $this->addTeam($team);
@@ -269,5 +286,23 @@ class User implements UserInterface, IdentityInterface {
             return [];
         }
     }
+    
+    function getEnvioAcceso() {
+        return $this->envioAcceso;
+    }
+
+    function getRecuperarPassword() {
+        return $this->recuperarPassword;
+    }
+
+    function setEnvioAcceso($envioAcceso) {
+        $this->envioAcceso = $envioAcceso;
+    }
+
+    function setRecuperarPassword($recuperarPassword) {
+        $this->recuperarPassword = $recuperarPassword;
+    }
+
+
 
 }
