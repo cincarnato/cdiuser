@@ -123,7 +123,7 @@ class User implements UserInterface, IdentityInterface {
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Envio Acceso:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="integer", length=5, unique=false, nullable=true,, name="envio_acceso")
+     * @ORM\Column(type="integer", length=5, unique=false, nullable=true, name="envio_acceso")
      */
     protected $envioAcceso;
     
@@ -132,7 +132,7 @@ class User implements UserInterface, IdentityInterface {
      * @Annotation\Type("Zend\Form\Element\Text")
      * @Annotation\Options({"label":"Recuperar Password:"})
      * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="integer", length=5, unique=false, nullable=true,, name="recuperar_password")
+     * @ORM\Column(type="integer", length=5, unique=false, nullable=true, name="recuperar_password")
      */
     protected $recuperarPassword;
 
