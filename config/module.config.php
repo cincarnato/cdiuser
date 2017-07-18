@@ -120,6 +120,26 @@ $setting = array(
                             ),
                         ),
                     ),
+                        'presend' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/presend/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'presend'
+                            ),
+                        ),
+                    ),
+                    'send' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/send/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuseradmin',
+                                'action' => 'send'
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'cdiuser_admin_teams' => array(

@@ -138,6 +138,49 @@ class UserAdminController extends AbstractActionController {
         }
         return $this->redirect()->toRoute('cdiuser_admin/list');
     }
+    
+    
+    public function sendAction() {
+        $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
+       $user = $this->getUserMapper()->findById($userId);
+
+        //DO SOMETHING IF FORM IS VALID
+
+        $bcrypt = new \Zend\Crypt\Password\Bcrypt();
+        $bcrypt->setCost($this->zfcUserOptions->getPasswordCost());
+        $newRandomPassword = $this->generateRandomPassword();
+        $user->setPassword($bcrypt->create($newRandomPassword));
+
+
+        try {
+             $this->getUserMapper()->save($user);
+            $this->email($user, $newRandomPassword);
+            $this->flashMessenger()->addSuccessMessage('Se envio el mail con exito al usuario: ' . $user->getEmail());
+        } catch (Exception $ex) {
+            $this->flashMessenger()->addErrorMessage('Error al enviar el acceso al usuario: ' . $user->getEmail());
+        }
+
+        return $this->redirect()->toRoute('cdiuser_admin/list');
+    }
+
+    protected function generateRandomPassword($length = 8) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+    protected function email($user, $newRandomPassword) {
+        $this->CdiUserMail();
+        $this->CdiUserMail()->setTemplate($this->options->getMailTemplatePasswordSend(), ["user" => $user, "newPassword" => $newRandomPassword]);
+        $this->CdiUserMail()->setFrom($this->options->getMailFrom(), $this->options->getMailFromName());
+        $this->CdiUserMail()->addTo($user->getEmail(), $user->toString());
+        $this->CdiUserMail()->setSubject('Acceso al Portal');
+        $this->CdiUserMail()->send();
+    }
 
     public function setOptions(ModuleOptions $options) {
         $this->options = $options;
