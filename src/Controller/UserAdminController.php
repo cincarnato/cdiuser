@@ -150,7 +150,7 @@ class UserAdminController extends AbstractActionController {
         $bcrypt->setCost($this->zfcUserOptions->getPasswordCost());
         $newRandomPassword = $this->generateRandomPassword();
         $user->setPassword($bcrypt->create($newRandomPassword));
-
+        $user->setSendAccess(true);
 
         try {
              $this->getUserMapper()->save($user);

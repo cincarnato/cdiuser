@@ -120,21 +120,11 @@ class User implements UserInterface, IdentityInterface {
 
     /**
      * @var int
-     * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Envio Acceso:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="integer", length=5, unique=false, nullable=true, name="envio_acceso")
+     * @Annotation\Exclude()
+     * @ORM\Column(type="integer", length=5, unique=false, nullable=true, name="send_acces")
      */
-    protected $envioAcceso;
-    
-    /**
-     * @var int
-     * @Annotation\Type("Zend\Form\Element\Text")
-     * @Annotation\Options({"label":"Recuperar Password:"})
-     * @Annotation\Validator({"name":"StringLength", "options":{"min":1, "max":100}})
-     * @ORM\Column(type="integer", length=5, unique=false, nullable=true, name="recuperar_password")
-     */
-    protected $recuperarPassword;
+    protected $sendAccess;
+
 
     function __construct() {
         $this->teams = new \Doctrine\Common\Collections\ArrayCollection();
@@ -287,21 +277,14 @@ class User implements UserInterface, IdentityInterface {
         }
     }
     
-    function getEnvioAcceso() {
-        return $this->envioAcceso;
+    function getSendAccess() {
+        return $this->sendAccess;
     }
 
-    function getRecuperarPassword() {
-        return $this->recuperarPassword;
+    function setSendAccess($sendAccess) {
+        $this->sendAccess = $sendAccess;
     }
 
-    function setEnvioAcceso($envioAcceso) {
-        $this->envioAcceso = $envioAcceso;
-    }
-
-    function setRecuperarPassword($recuperarPassword) {
-        $this->recuperarPassword = $recuperarPassword;
-    }
 
 
 
