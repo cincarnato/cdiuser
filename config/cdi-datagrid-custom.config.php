@@ -48,7 +48,9 @@ $config = [
                 "hidden" => true
             ],
             "sendAccess" => [
-                "displayName" => "Acceso Enviado"
+                "displayName" => "Acceso Enviado",
+                "valueWhenTrue" => "Si",
+                "valueWhenFalse" => "No",
             ],
             "role" => [
                 "type" => "relational",
