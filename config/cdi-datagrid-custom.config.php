@@ -47,6 +47,9 @@ $config = [
             "password" => [
                 "hidden" => true
             ],
+            "sendAccess" => [
+                "displayName" => "Acceso Enviado"
+            ],
             "role" => [
                 "type" => "relational",
                 "orderProperty" => 'name'
