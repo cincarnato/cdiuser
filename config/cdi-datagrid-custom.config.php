@@ -49,6 +49,7 @@ $config = [
             ],
             "sendAccess" => [
                 "displayName" => "Acceso Enviado",
+                 "type" => "boolean",
                 "valueWhenTrue" => "Si",
                 "valueWhenFalse" => "No",
             ],
