@@ -20,4 +20,12 @@ class UserDoctrine extends ZfcUserDoctrineMapper
         $this->em->flush();
         $this->getEventManager()->trigger('remove', $this, array('entity' => $entity));
     }
+    
+     public function save(\CdiUser\Entity\User $entity)
+    {
+        $this->getEventManager()->trigger('save.pre', $this, array('entity' => $entity));
+        $this->em->persist($entity);
+        $this->em->flush();
+        $this->getEventManager()->trigger('save', $this, array('entity' => $entity));
+    }
 }
