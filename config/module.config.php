@@ -48,6 +48,26 @@ $setting = array(
                     ),
                 ),
                 'child_routes' => array(
+                    'impersonate' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/impersonate/:userId',
+                            'defaults' => array(
+                                'controller' => 'cdiuserimpersonate',
+                                'action'     => 'impersonateUser',
+                            ),
+                        ),
+                    ),
+                    'unimpersonate' => array(
+                        'type' => 'Literal',
+                        'options' => array(
+                            'route' => '/unimpersonate',
+                            'defaults' => array(
+                                'controller' => 'cdiuserimpersonate',
+                                'action'     => 'unimpersonateUser',
+                            ),
+                        ),
+                    ),
                     'list' => array(
                         'type' => 'Literal',
                         'options' => array(
