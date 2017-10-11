@@ -3,7 +3,8 @@
 namespace CdiUser\Service;
 
 use ZfcUser\Service\User as ZfcUserUserService;
-
+use ZfcUser\Entity\UserInterface;
+use Zend\Authentication\Storage\StorageInterface;
 
 class Impersonate extends ZfcUserUserService
 {
@@ -41,7 +42,7 @@ class Impersonate extends ZfcUserUserService
     {
         // Ensure that there is a current user (i.e. the user is logged in).
         if (!($this->getAuthService()->getIdentity() instanceof UserInterface)) {
-            throw new UserNotLoggedInException();
+            throw new \Exception("UserNotLoggedInException");
         }
 
         // Retrieve the user to impersonate.
@@ -50,7 +51,7 @@ class Impersonate extends ZfcUserUserService
         // Assert that the user to impersonate is valid.
         if (!$userToImpersonate instanceof UserInterface) {
             // User not found.
-            throw new UserNotFoundException();
+            throw new Exception("UserNotFoundException");
         }
 
         // Store the 'impersonator' (real user) in storage to allow later unimpersonation.
@@ -77,7 +78,7 @@ class Impersonate extends ZfcUserUserService
     {
         // Assert that impersonation is in progress (i.e. the current user is being impersonated).
         if (!$this->isImpersonated()) {
-            throw new NotImpersonatingException();
+            throw new Exception("NotImpersonatingException");
         }
 
         // Retrieve the 'impersonator' (real user) from storage.
@@ -169,6 +170,15 @@ class Impersonate extends ZfcUserUserService
         // Fluent interface.
         return $this;
     }
+
+    function getCdiUserOptions() {
+        return $this->cdiUserOptions;
+    }
+
+    function setCdiUserOptions( $cdiUserOptions) {
+        $this->cdiUserOptions = $cdiUserOptions;
+    }
+
 
 
 }

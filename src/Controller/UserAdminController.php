@@ -53,13 +53,14 @@ class UserAdminController extends AbstractActionController {
     }
 
     public function listAction() {
-       // $this->grid->setTemplate("ajax");
-          
-          $this->grid->addExtraColumn("Grupos", "<a class='btn btn-primary btn-xs fa fa-users' href='/admin/user/teams/{{id}}' ></a>", "right", false);
-      
+        // $this->grid->setTemplate("ajax");
+
+        $this->grid->addExtraColumn("Grupos", "<a class='btn btn-primary btn-xs fa fa-users' href='/admin/user/teams/{{id}}' ></a>", "right", false);
+         $this->grid->addExtraColumn("Impersonate", "<a class='btn btn-primary btn-xs fa fa-user' href='/admin/user/impersonate/{{id}}' ></a>", "right", false);
+
         $this->grid->prepare();
-        
-        
+
+
         //WAre
         $this->grid->setTableClass("table-condensed text-center");
         $this->grid->getFormFilters()->remove("password");
@@ -103,7 +104,7 @@ class UserAdminController extends AbstractActionController {
         /** @var $request \Zend\Http\Request */
         $request = $this->getRequest();
         $data = $request->getPost();
-   
+
 
         if ($request->isPost()) {
             $form->setData($data);
@@ -138,11 +139,10 @@ class UserAdminController extends AbstractActionController {
         }
         return $this->redirect()->toRoute('cdiuser_admin/list');
     }
-    
-    
+
     public function sendAction() {
         $userId = $this->getEvent()->getRouteMatch()->getParam('userId');
-       $user = $this->getUserMapper()->findById($userId);
+        $user = $this->getUserMapper()->findById($userId);
 
         //DO SOMETHING IF FORM IS VALID
 
@@ -153,7 +153,7 @@ class UserAdminController extends AbstractActionController {
         $user->setSendAccess(true);
 
         try {
-             $this->getUserMapper()->save($user);
+            $this->getUserMapper()->save($user);
             $this->email($user, $newRandomPassword);
             $this->flashMessenger()->addSuccessMessage('Se envio el mail con exito al usuario: ' . $user->getEmail());
         } catch (Exception $ex) {

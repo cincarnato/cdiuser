@@ -8,7 +8,7 @@ use CdiUser\Service\Impersonate;
 use Zend\Authentication\Storage\Session;
 
 class ImpersonateFactory implements FactoryInterface
-{
+{ 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL)
     {
         $userMapper = $container->get('zfcuser_user_mapper');

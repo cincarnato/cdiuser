@@ -3,7 +3,7 @@
 return array(
     'factories' => array(
         'cdiuseradmin' => \CdiUser\Factory\Controller\UserAdminControllerFactory::class,
-        'cdiuserimpersonate' => \CdiUser\Factory\Controller\ImpersonateControllerFactory::class,
+        'cdiuserimpersonate' => \CdiUser\Factory\Controller\ImpersonateControllerFactory::class, 
         'cdiuserlog' => \CdiUser\Factory\Controller\UserLogControllerFactory::class,
         'cdiuserlogdetail' => \CdiUser\Factory\Controller\UserLogDetailControllerFactory::class,
         'cdiuser' => \CdiUser\Factory\Controller\UserControllerFactory::class,

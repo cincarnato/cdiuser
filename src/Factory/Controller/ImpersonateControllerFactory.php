@@ -13,7 +13,7 @@ class ImpersonateControllerFactory implements FactoryInterface {
         $options = $container->get('cdiuser_module_options');
         $userService = $container->get('cdiuser_impersonate_user_service');
 
-        return new ImpersonateController($options,$userService);
+        return new ImpersonateController($userService,$options);
     }
 
 }

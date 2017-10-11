@@ -11,6 +11,24 @@ ModuleOptionsInterface {
      * Turn off strict options mode
      */
     protected $__strictMode__ = false;
+    
+       /**
+     *
+     * @var boolean
+     */
+    private $storeUserAsObject;
+    
+     /**
+     *
+     * @var string
+     */
+    private $impersonateRedirectRoute;
+    
+      /**
+     *
+     * @var string
+     */
+    private $unImpersonateRedirectRoute;
 
     /**
      *
@@ -191,6 +209,31 @@ ModuleOptionsInterface {
     }
 
 
+    function getImpersonateRedirectRoute() {
+        return $this->impersonateRedirectRoute;
+    }
+
+    function setImpersonateRedirectRoute($impersonateRedirectRoute) {
+        $this->impersonateRedirectRoute = $impersonateRedirectRoute;
+    }
+
+    function getUnImpersonateRedirectRoute() {
+        return $this->unImpersonateRedirectRoute;
+    }
+
+
+    function setUnImpersonateRedirectRoute($unImpersonateRedirectRoute) {
+        $this->unImpersonateRedirectRoute = $unImpersonateRedirectRoute;
+    }
+
+
+    function getStoreUserAsObject() {
+        return $this->storeUserAsObject;
+    }
+
+    function setStoreUserAsObject($storeUserAsObject) {
+        $this->storeUserAsObject = $storeUserAsObject;
+    }
 
 
     

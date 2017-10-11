@@ -7,16 +7,19 @@ $setting = array(
     'zfcuser' => require __DIR__ . '/zfcuser.config.php',
     'zfc_rbac' => require __DIR__ . '/zfc_rbac.config.php',
     'cdiuser' => array(
+        'impersonate_redirect_route' => "home",
+        'un_impersonate_redirect_route' => "home",
+        'store_user_as_object' => false,
         'user_mapper' => 'CdiUser\Mapper\UserDoctrine',
         'allow_password_change' => true,
         'create_user_auto_password' => false,
         'mail_from' => 'ci.sys.virtual@gmail.com',
-         'mail_from_name' => 'SYS',
+        'mail_from_name' => 'SYS',
         'mail_template_password_recovery' => 'cdi-user/mail/password-recovery',
         'mail_template_password_send' => 'cdi-user/mail/password-send',
         'transport' => '\Zend\Mail\Transport\Sendmail',
         'transport_options' => [
-            ]
+        ]
     ),
     'doctrine' => array(
         'driver' => array(
@@ -54,7 +57,7 @@ $setting = array(
                             'route' => '/impersonate/:userId',
                             'defaults' => array(
                                 'controller' => 'cdiuserimpersonate',
-                                'action'     => 'impersonateUser',
+                                'action' => 'impersonateUser',
                             ),
                         ),
                     ),
@@ -64,7 +67,7 @@ $setting = array(
                             'route' => '/unimpersonate',
                             'defaults' => array(
                                 'controller' => 'cdiuserimpersonate',
-                                'action'     => 'unimpersonateUser',
+                                'action' => 'unimpersonateUser',
                             ),
                         ),
                     ),
@@ -140,7 +143,7 @@ $setting = array(
                             ),
                         ),
                     ),
-                        'presend' => array(
+                    'presend' => array(
                         'type' => 'Segment',
                         'options' => array(
                             'route' => '/presend/:userId',
@@ -204,7 +207,7 @@ $setting = array(
                     ),
                 ),
             ),
-             'cdiuser_picture' => array(
+            'cdiuser_picture' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/user/picture',
@@ -243,7 +246,7 @@ $setting = array(
             'message_separator_string' => '</li><li>'
         )
     ),
-     'controller_plugins' => [
+    'controller_plugins' => [
         'factories' => [
             \CdiUser\Controller\Plugin\CdiUserMail::class => \CdiUser\Factory\Controller\Plugin\CdiUserMailFactory::class,
         ],
