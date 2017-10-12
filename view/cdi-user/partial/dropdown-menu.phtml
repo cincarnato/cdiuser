@@ -13,7 +13,11 @@
     <?php //echo $this->zfcUserIdentity()->getEmail(); ?>
     <li class="dropdown pull-right">
         <a class="dropdown-toggle whitoutIcon" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+            <i class="fa fa-user fa-fw"></i>  
+            <?php if ($this->isImpersonate()): ?>
+                <span><?php echo $this->zfcUserIdentity()->getEmail(); ?></span>
+            <?php endif; ?>
+            <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
             <?php if ($this->isGranted('admin')): ?>
@@ -32,12 +36,18 @@
             <?php endif; ?>
             <li><a href="/user/change-password"><i class="fa fa-lock fa-fw"></i> <?php echo $this->translate('Cambiar Password'); ?></a>
             </li>   
-             <li class="divider"></li>
+            <li class="divider"></li>
             <li><a href="/user/picture"><i class="fa fa-picture-o fa-fw"></i> <?php echo $this->translate('Imagen de Perfil'); ?></a>
             </li>  
             <li class="divider"></li>
             <li><a href="/user/logout"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Cerrar Sesión'); ?></a>
             </li>
+            <?php if ($this->isImpersonate()): ?>
+                <li class="divider"></li>
+                <li><a href="/admin/user/unimpersonate"><i class="fa fa-sign-out fa-fw"></i>  <?php echo $this->translate('Des-Impersonar'); ?></a>
+                </li>
+            <?php endif; ?>
+
         </ul>
     </li>
 <?php endif?>

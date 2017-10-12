@@ -56,7 +56,7 @@ class UserAdminController extends AbstractActionController {
         // $this->grid->setTemplate("ajax");
 
         $this->grid->addExtraColumn("Grupos", "<a class='btn btn-primary btn-xs fa fa-users' href='/admin/user/teams/{{id}}' ></a>", "right", false);
-         $this->grid->addExtraColumn("Impersonate", "<a class='btn btn-primary btn-xs fa fa-user' href='/admin/user/impersonate/{{id}}' ></a>", "right", false);
+         $this->grid->addExtraColumn("Impersonar", "<a class='btn btn-primary btn-xs fa fa-flag' href='/admin/user/impersonate/{{id}}' ></a>", "right", false);
 
         $this->grid->prepare();
 

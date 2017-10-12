@@ -22,7 +22,7 @@ $setting = array(
         ] 
     ),
     'view_helpers' => array(
-        'factories' => array(
+        'factories' => array( 
             \CdiUser\View\Helper\Impersonate::class => \CdiUser\Factory\View\Helper\ImpersonateFactory::class,
         ),
         'aliases' => [
