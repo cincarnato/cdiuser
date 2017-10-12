@@ -21,6 +21,12 @@ $setting = array(
         'transport_options' => [
         ]
     ),
+    
+    'view_helpers' => array(
+        'invokables' => array(
+            'isImpersonate' => '\CdiUser\Factory\View\Helper\ImpersonateFactory',
+            )
+        ),
     'doctrine' => array(
         'driver' => array(
             'zfcuser_entity' => array(
