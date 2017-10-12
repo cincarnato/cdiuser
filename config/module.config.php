@@ -19,14 +19,16 @@ $setting = array(
         'mail_template_password_send' => 'cdi-user/mail/password-send',
         'transport' => '\Zend\Mail\Transport\Sendmail',
         'transport_options' => [
+        ] 
+    ),
+    'view_helpers' => array(
+        'factories' => array(
+            \CdiUser\View\Helper\Impersonate::class => \CdiUser\Factory\View\Helper\ImpersonateFactory::class,
+        ),
+        'aliases' => [
+            'isImpersonate' => \CdiUser\View\Helper\Impersonate::class,
         ]
     ),
-    
-    'view_helpers' => array(
-        'invokables' => array(
-            'isImpersonate' => '\CdiUser\Factory\View\Helper\ImpersonateFactory',
-            )
-        ),
     'doctrine' => array(
         'driver' => array(
             'zfcuser_entity' => array(
