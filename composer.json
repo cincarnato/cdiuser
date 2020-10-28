@@ -3,7 +3,7 @@
     "description": "Modulo de usuarios para usar junto a ZfcUser, rbac y Doctrine",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "3.3.0",
+    "version": "4.0.1",
     "homepage": "https://github.com/cincarnato",
     "keywords": [
         "zf3",

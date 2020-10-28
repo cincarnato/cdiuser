@@ -24,15 +24,15 @@ class UserLog {
     protected $id;
 
     /**
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="CdiUser\Entity\User")
-     * 
+     *
      */
     protected $user;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=30, unique=false, nullable=true, name="sesion_id")
+     * @ORM\Column(type="string", length=50, unique=false, nullable=true, name="sesion_id")
      */
     protected $sesionId;
 
@@ -64,13 +64,13 @@ class UserLog {
      * @ORM\Column(type="string", length=15, unique=false, nullable=true, name="last_ip")
      */
     protected $lastIp;
-    
+
         /**
      * @var string
      * @ORM\Column(type="integer", length=11, unique=false, nullable=true, name="login_count")
      */
     protected $loginCount;
-    
+
           /**
      * @var string
      * @ORM\Column(type="string", length=120, unique=false, nullable=true, name="agent")
@@ -132,7 +132,7 @@ class UserLog {
     function setSesionId($sesionId) {
         $this->sesionId = $sesionId;
     }
-    
+
     function getLoginCount() {
         return $this->loginCount;
     }
@@ -140,7 +140,7 @@ class UserLog {
     function setLoginCount($loginCount) {
         $this->loginCount = $loginCount;
     }
-    
+
     function getAgent() {
         return $this->agent;
     }
