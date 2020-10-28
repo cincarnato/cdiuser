@@ -24,15 +24,15 @@ class UserLogDetail {
     protected $id;
 
     /**
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="CdiUser\Entity\User")
-     * 
+     *
      */
     protected $user;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=30, unique=false, nullable=true, name="sesion_id")
+     * @ORM\Column(type="string", length=50, unique=false, nullable=true, name="sesion_id")
      */
     protected $sesionId;
 
